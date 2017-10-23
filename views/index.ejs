@@ -8,7 +8,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="./public/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../public/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -23,7 +23,7 @@
   <nav class="navbar navbar-toggleable-md navbar-light bg-faded justify-content-start">
     <div class="container d-flex">
       <a class="navbar-brand" href="#">
-        <img src="./assets/logo.png" width="210" height="60" alt="">
+        <img src="../assets/logo.png" width="210" height="60" alt="">
       </a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
   <div class="container">
     <div class="input-group col-sm-8 p-4" style="margin:auto">
       <input type="text" class="form-control">
-      <span class="input-group-addon">Search</span>
+      <span class="input-group-addon">Browse</span>
     </div>
   </div>
 
@@ -58,8 +58,18 @@
   <div class="container">
     <div class="card-deck">
       <div class="row p-3">
-        <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
+        <div class="col-sm-3 card">
+          <img class="card-img-top" src="http://books.google.com/books/content?id=-6YERAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title"> <%= title %></h4>
+            <p class="card-text"><%= author %></p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+
+        <div class="col-sm-3 card">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
           <div class="card-block">
             <h4 class="card-title">All About Photography</h4>
             <p class="card-text">By John Smith</p>
@@ -68,50 +78,8 @@
           </div>
         </div>
 
-        <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
-          <div class="card-block">
-            <h4 class="card-title">All About Photography</h4>
-            <p class="card-text">By John Smith</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
-          <div class="card-block">
-            <h4 class="card-title">All About Photography</h4>
-            <p class="card-text">By John Smith</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="row p-3">
-        <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
-          <div class="card-block">
-            <h4 class="card-title">All About Photography</h4>
-            <p class="card-text">By John Smith</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
-          <div class="card-block">
-            <h4 class="card-title">All About Photography</h4>
-            <p class="card-text">By John Smith</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-
-        <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
+        <div class="col-sm-3 card">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
           <div class="card-block">
             <h4 class="card-title">All About Photography</h4>
             <p class="card-text">By John Smith</p>
@@ -123,7 +91,7 @@
 
       <div class="row p-3">
         <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
           <div class="card-block">
             <h4 class="card-title">All About Photography</h4>
             <p class="card-text">By John Smith</p>
@@ -133,7 +101,7 @@
         </div>
 
         <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
           <div class="card-block">
             <h4 class="card-title">All About Photography</h4>
             <p class="card-text">By John Smith</p>
@@ -143,7 +111,39 @@
         </div>
 
         <div class="col-sm-4 card">
-          <img class="card-img-top" src="./assets/Example1.jpeg" alt="Card image cap">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">All About Photography</h4>
+            <p class="card-text">By John Smith</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col-sm-4 card">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">All About Photography</h4>
+            <p class="card-text">By John Smith</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+
+        <div class="col-sm-4 card">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
+          <div class="card-block">
+            <h4 class="card-title">All About Photography</h4>
+            <p class="card-text">By John Smith</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+
+        <div class="col-sm-4 card">
+          <img class="card-img-top" src="../assets/Example1.jpeg" alt="Card image cap">
           <div class="card-block">
             <h4 class="card-title">All About Photography</h4>
             <p class="card-text">By John Smith</p>
