@@ -11,6 +11,7 @@ app.set ('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 // app.use(methodOverride('_method'));
 app.use(cookieParser());
+app.use(express.static('assets'))
 
 app.locals.thumbnail = 1;
 app.locals.title = 2;
