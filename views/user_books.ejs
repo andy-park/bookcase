@@ -1,6 +1,10 @@
 <html>
 
 <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
         crossorigin="anonymous">
@@ -15,68 +19,42 @@
 </head>
 
 <body>
+    <!-- Navigation -->
+    <% include ./partials/_navbar %>
 
-    <!-- Nav Bar -->
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded justify-content-start">
-        <div class="container d-flex">
-            <a class="navbar-brand" href="#">
-                <img src="../assets/logo.png" width="210" height="60" alt="">
-            </a>
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#portfolio">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#about">Login</a>
-                    </li>
-                </ul>
+        <!-- Page Content -->
+        <div class="container">
+            <div class="jumbotron">
+                <h4 class="p-2">Add Book</h4>
+
+                <!-- Search Bar -->
+                <% include ./partials/_searchbar %>
+
+                    <!-- Manage Books -->
+                    <div class="container">
+                        <ul class="list-group">
+                            <li class="list-group-item justify-content-between">
+                                Book 1
+                                <span class="actions">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                            </li>
+                            <li class="list-group-item justify-content-between">
+                                Book 2
+                                <span class="actions">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                            </li>
+                            <li class="list-group-item justify-content-between">
+                                Book 3
+                                <span class="actions">
+                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
             </div>
         </div>
-    </nav>
-
-    <!-- Page Content -->
-    <div class="container">
-        <div class="jumbotron">
-            <h4 class="p-2">Add Book</h4>
-
-            <!-- Search Bar -->
-            <div class="container">
-                <div class="input-group col-sm-8 p-4" style="margin:auto">
-                    <input type="text" class="form-control">
-                    <span class="input-group-addon">Search</span>
-                </div>
-            </div>
-
-            <!-- Manage Books -->
-            <div class="container">
-                <ul class="list-group">
-                    <li class="list-group-item justify-content-between">
-                        Book 1
-                        <span class="actions">
-                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                        </span>
-                    </li>
-                    <li class="list-group-item justify-content-between">
-                        Book 2
-                        <span class="actions">
-                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                        </span>
-                    </li>
-                    <li class="list-group-item justify-content-between">
-                        Book 3
-                        <span class="actions">
-                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                        </span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

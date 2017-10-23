@@ -14,9 +14,9 @@ app.use(cookieParser());
 app.use(express.static('public'))
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-app.locals.thumbnail = [1, 2, 3, 4, 5];
-app.locals.title = 2;
-app.locals.author = 3;
+app.locals.thumbnail = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+app.locals.title = "Title";
+app.locals.author = "Author";
 
 //Sample endpoint
 app.get("/", (req, res) => {
