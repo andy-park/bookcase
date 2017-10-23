@@ -22,6 +22,14 @@ app.get("/", (req, res) => {
   res.render("index")
 });
 
+app.get("/connections", (req, res) => {
+  res.render("connections")
+});
+
+app.get("/books", (req, res) => {
+  res.render("user_books")
+});
+
 //Listening to the appropriate PORT
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
