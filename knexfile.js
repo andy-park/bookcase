@@ -1,13 +1,13 @@
 
-client = require('./settings.json')
+require("dotenv").load();
 module.exports = {
 
   development: {
     client: 'postgresql',
     connection: {
-      database: client.database,
-      user: client.user,
-      password: client.password,
+      database: process.env.database,
+      user: process.env.user,
+      password: process.env.password,
     }
   },
 };
