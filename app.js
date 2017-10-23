@@ -11,9 +11,10 @@ app.set ('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 // app.use(methodOverride('_method'));
 app.use(cookieParser());
-app.use(express.static('assets'))
+app.use(express.static('public'))
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-app.locals.thumbnail = 1;
+app.locals.thumbnail = [1, 2, 3, 4, 5];
 app.locals.title = 2;
 app.locals.author = 3;
 
