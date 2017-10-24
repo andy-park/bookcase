@@ -215,3 +215,32 @@ knex('connections')
   });
 
 */
+
+/* This query retrieves a list of the user's connections from where the user can borrow books.
+
+let userId = 1;
+
+knex
+  .raw(
+    'SELECT friends.id ' +
+    'FROM ' +
+    'users JOIN connections ' +
+    'ON users.id = connections.user1_id ' +
+    'JOIN users AS friends ' +
+    'ON connections.user2_id = friends.id ' +
+    'WHERE users.id = ? ' +
+    'UNION ' +
+    'SELECT friends.id ' +
+    'FROM ' +
+    'users AS friends JOIN connections ' +
+    'ON friends.id = connections.user1_id ' +
+    'JOIN users ' +
+    'ON connections.user2_id = users.id ' +
+    'WHERE users.id = ? ',
+    [ userId, userId ]
+  )
+  .then((result) => {
+    console.log(result.rows);
+  });
+  
+*/
