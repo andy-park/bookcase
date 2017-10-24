@@ -1,3 +1,4 @@
+require("dotenv").load();
 var PORT = process.env.PORT || 8080; // default port 8080
 
 var express = require("express");
@@ -5,6 +6,16 @@ var express = require("express");
 // const bcrypt = require('bcrypt');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const knex = require("knex")({
+  client: 'pg',
+  connection: {
+    host: process.env.localhost,
+    port: process.env.port,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database
+  }
+});
 
 var app = express();
 app.set ('view engine','ejs');
@@ -18,8 +29,19 @@ app.locals.thumbnail = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 app.locals.title = "Title";
 app.locals.author = "Author";
 
-//Sample endpoint
+
 app.get("/", (req, res) => {
+  
+  // This query retrieves a list of bestsellers.
+
+  knex('books')
+    .where('books.bestseller', 'true')
+    .then((rows) => {
+      console.log(rows);
+    });
+
+  
+  
   res.render("index")
 });
 
