@@ -33,23 +33,22 @@
 
       <!-- Page Content -->
       <div class="container .text-center">
-        <h4 class="p-2" style="color:#253C31">Top 10 Children's Books</h4>
+        <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
       </div>
 
       <div class="container .text-center">
         <div class="card-deck">
           <div class="row p-3">
             <% for (var i = 0; i < 9; i++) { %>
-              <% thumbnail[i] %>
                 <div class="col-md-4 card-outline-primary">
-                  <img class="card-img-top" src="http://books.google.com/books/content?id=-6YERAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+                  <img class="card-img-top" src="<%= thumbnails[i] %>"
                     alt="Card image cap" style="width:initial">
                   <div class="card-block">
                     <h4 class="card-title">
-                      <%= title %>
+                      <%= titles[i] %>
                     </h4>
                     <p class="card-text">
-                      <%= author %>
+                      <%= authors[i] %>
                     </p>
                   </div>
                 </div>

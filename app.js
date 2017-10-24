@@ -25,10 +25,6 @@ app.use(cookieParser());
 app.use(express.static('public'))
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-app.locals.thumbnail = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-app.locals.title = "Title";
-app.locals.author = "Author";
-
 // ENDPOINTS
 app.get("/", (req, res) => {
   
@@ -36,13 +32,18 @@ app.get("/", (req, res) => {
   knex('books')
     .where('books.bestseller', 'true')
     .then((rows) => {
-      for (var i = 0; i < 9; i++) {
-        console.log(rows[i].title);
-        console.log(rows[i].author);
-        console.log(rows[i].picture);
+      titles = [];
+      authors = [];
+      thumbnails = [];
+      for (var i = 0; i < rows.length; i++) {
+        titles[i] = rows[i].title;
+        authors[i] = rows[i].author;
+        thumbnails[i] = rows[i].picture;
       };
+      app.locals.titles = titles;
+      app.locals.authors = authors;
+      app.locals.thumbnails = pictures;
     });
-
   res.render("index")
 });
 
