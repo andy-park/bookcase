@@ -86,7 +86,6 @@ function searchBooks(title, cb) {
     request(url, callback);
   }
   
-
 /* This query retrieves a list of the user's books that are available to be loaned out.
 
 let userId = 1;
