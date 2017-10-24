@@ -44,9 +44,10 @@ app.get("/", (req, res) => {
       };
       app.locals.titles = titles;
       app.locals.authors = authors;
-      app.locals.thumbnails = pictures;
+      app.locals.thumbnails = thumbnails;
+      res.render("index")
     });
-  res.render("index")
+  
 });
 
 app.get("/connections", (req, res) => {
