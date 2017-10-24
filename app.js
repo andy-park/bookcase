@@ -29,19 +29,20 @@ app.locals.thumbnail = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 app.locals.title = "Title";
 app.locals.author = "Author";
 
-
+// ENDPOINTS
 app.get("/", (req, res) => {
   
   // This query retrieves a list of bestsellers.
-
   knex('books')
     .where('books.bestseller', 'true')
     .then((rows) => {
-      console.log(rows);
+      for (var i = 0; i < 9; i++) {
+        console.log(rows[i].title);
+        console.log(rows[i].author);
+        console.log(rows[i].picture);
+      };
     });
 
-  
-  
   res.render("index")
 });
 
