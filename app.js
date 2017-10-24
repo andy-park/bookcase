@@ -4,6 +4,8 @@ var PORT = process.env.PORT || 8080; // default port 8080
 var express = require("express");
 // const methodOverride = require('method-override');
 // const bcrypt = require('bcrypt');
+const request = require("request");
+const urlEncode = require("urlencode");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const knex = require("knex")({
@@ -59,6 +61,31 @@ app.get("/books", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+function searchBooks(title, cb) {
+  
+    title = urlEncode(title);
+    let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
+  
+    const callback = function(error, response, body) {
+      let result = JSON.parse(body);
+      if(result) {
+        books = [];
+        result.items.forEach((item) => {
+          book = {};
+          book.title = item.volumeInfo.title;
+          book.authors = item.volumeInfo.authors;
+          book.isbn = item.volumeInfo.industryIdentifiers[1].identifier;
+          book.picture = item.volumeInfo.imageLinks.smallThumbnail;
+          books.push(book);
+        })
+        cb(books);
+      }
+      return;
+    }
+    request(url, callback);
+  }
+  
 
 /* This query retrieves a list of the user's books that are available to be loaned out.
 
