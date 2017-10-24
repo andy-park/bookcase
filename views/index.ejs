@@ -32,24 +32,32 @@
     <% include ./partials/_searchbar %>
 
       <!-- Page Content -->
-      <div class="container .text-center">
+      <div class="container">
         <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
       </div>
 
-      <div class="container .text-center">
+      <div class="container">
         <div class="card-deck">
           <div class="row p-3">
             <% for (var i = 0; i < 9; i++) { %>
-                <div class="col-md-4 card-outline-primary">
-                  <img class="card-img-top" src="<%= thumbnails[i] %>"
+                <div class="col-md-4">
+                  <img class="card-img-top mx-auto d-block" src="<%= thumbnails[i] %>"
                     alt="Card image cap" style="width:initial">
                   <div class="card-block">
-                    <h4 class="card-title">
+                    <h6 class="card-title">
                       <%= titles[i] %>
-                    </h4>
+                    </h6>
                     <p class="card-text">
-                      <%= authors[i] %>
+                      By <%= authors[i] %>
                     </p>
+                    <div class="row">
+                      <div class="col">
+                          <a href="#" i class="fa fa-search" aria-hidden="true"></i>Library Search</a>
+                      </div>
+                      <div class="col">
+                          <a href="#" i class="fa fa-amazon" aria-hidden="true"></i>Buy on Amazon</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <% } %>
