@@ -44,9 +44,10 @@ app.get("/", (req, res) => {
       };
       app.locals.titles = titles;
       app.locals.authors = authors;
-      app.locals.thumbnails = pictures;
+      app.locals.thumbnails = thumbnails;
+      res.render("index")
     });
-  res.render("index")
+  
 });
 
 app.get("/connections", (req, res) => {
@@ -85,10 +86,7 @@ function searchBooks(title, cb) {
     }
     request(url, callback);
   }
-searchBooks("diary of a wimpy kid", (books) => {
-  console.log(books);
-});
-
+  
 /* This query retrieves a list of the user's books that are available to be loaned out.
 
 let userId = 1;
