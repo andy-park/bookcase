@@ -23,15 +23,20 @@
   <!-- Navigation -->
   <% include ./partials/_navbar %>
 
+  <!-- Banner -->
+      <div class="container .text-center p-3">
+        <img src="/assets/banner3.jpg" class="img-fluid" alt="Responsive image">
+      </div>
+
     <!-- Search Bar -->
     <% include ./partials/_searchbar %>
 
       <!-- Page Content -->
-      <div class="container">
-        <h4 class="p-2">Top 10 Children's Books</h4>
+      <div class="container .text-center">
+        <h4 class="p-2" style="color:#253C31">Top 10 Children's Books</h4>
       </div>
 
-      <div class="container">
+      <div class="container .text-center">
         <div class="card-deck">
           <div class="row p-3">
             <% for (var i = 0; i < 9; i++) { %>
@@ -52,6 +57,9 @@
           </div>
         </div>
       </div>
+
+    <!-- Footer -->
+    <% include ./partials/_footer %>
 </body>
 
 </html>
