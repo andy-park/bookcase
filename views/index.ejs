@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
-    crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
@@ -23,40 +22,40 @@
   <!-- Navigation -->
   <% include ./partials/_navbar %>
 
-  <!-- Banner -->
-  <% include ./partials/_banner %>
+    <!-- Banner -->
+    <% include ./partials/_banner %>
 
-    <!-- Search Bar -->
-    <% include ./partials/_searchbar %>
+      <!-- Search Bar -->
+      <% include ./partials/_searchbar %>
 
-      <!-- Page Content -->
-      <div class="container">
-        <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
-      </div>
+        <!-- Page Content -->
+        <div class="container">
+          <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
+        </div>
 
-      <div class="container">
-        <div class="card-deck">
-          <div class="row p-3">
-            <% for (var i = 0; i < 12; i++) { %>
+        <div class="container">
+          <div class="card-deck">
+            <div class="row p-3">
+              <% for (var i = 0; i < 12; i++) { %>
                 <div class="col-md-4 text-center">
-                  <img class="card-img-top mx-auto d-block" src="<%= thumbnails[i] %>"
-                    alt="Card image cap" style="width:initial">
+                  <img class="card-img-top mx-auto d-block" src="<%= thumbnails[i] %>" alt="Card image cap" style="width:initial">
                   <div class="card-block">
                     <h6 class="card-title">
                       <%= titles[i] %>
                     </h6>
                     <p class="card-text">
-                      By <%= authors[i] %>
+                      By
+                      <%= authors[i] %>
                     </p>
                   </div>
                 </div>
                 <% } %>
+            </div>
           </div>
         </div>
-      </div>
 
-    <!-- Footer -->
-    <% include ./partials/_footer %>
+        <!-- Footer -->
+        <% include ./partials/_footer %>
 </body>
 
 </html>
