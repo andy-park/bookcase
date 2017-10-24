@@ -85,7 +85,9 @@ function searchBooks(title, cb) {
     }
     request(url, callback);
   }
-  
+searchBooks("diary of a wimpy kid", (books) => {
+  console.log(books);
+});
 
 /* This query retrieves a list of the user's books that are available to be loaned out.
 

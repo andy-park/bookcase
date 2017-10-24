@@ -27,21 +27,22 @@
         <% include ./partials/_searchbar %>
 
             <!-- Page Content -->
-            Search Results
+            <div class="container">
+                <h4 class="p-2" style="color:#253C31">Search Results</h4>
+            </div>
 
             <div class="container">
                 <div class="card-deck">
                     <div class="row p-3">
-                        <% for (var key in thumbnail) { %>
-                            <div class="col-md-4 card-outline-primary">
-                                <img class="card-img-top" src="http://books.google.com/books/content?id=-6YERAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
-                                    alt="Card image cap">
+                        <% for (var i = 0; i < 9; i++) { %>
+                            <div class="col-md-4 text-center">
+                                <img class="card-img-top mx-auto d-block" src="<%= searchBooks(book.picture) %>" alt="Card image cap" style="width:initial">
                                 <div class="card-block">
-                                    <h4 class="card-title">
-                                        <%= title %>
-                                    </h4>
+                                    <h6 class="card-title">
+                                        <%= searchBooks(book.title) %>
+                                    </h6>
                                     <p class="card-text">
-                                        <%= author %>
+                                        By <%= searchBooks (book.authors) %>
                                     </p>
                                     <div class="row">
                                         <div class="col-sm">

@@ -25,7 +25,7 @@
 
   <!-- Banner -->
       <div class="container .text-center p-3">
-        <img src="/assets/banner3.jpg" class="img-fluid" alt="Responsive image">
+        <img src="/assets/Banner1.jpg" class="img-fluid" alt="Responsive image">
       </div>
 
     <!-- Search Bar -->
@@ -39,8 +39,8 @@
       <div class="container">
         <div class="card-deck">
           <div class="row p-3">
-            <% for (var i = 0; i < 9; i++) { %>
-                <div class="col-md-4">
+            <% for (var i = 0; i < 12; i++) { %>
+                <div class="col-md-4 text-center">
                   <img class="card-img-top mx-auto d-block" src="<%= thumbnails[i] %>"
                     alt="Card image cap" style="width:initial">
                   <div class="card-block">
@@ -50,14 +50,6 @@
                     <p class="card-text">
                       By <%= authors[i] %>
                     </p>
-                    <div class="row">
-                      <div class="col">
-                          <a href="#" i class="fa fa-search" aria-hidden="true"></i>Library Search</a>
-                      </div>
-                      <div class="col">
-                          <a href="#" i class="fa fa-amazon" aria-hidden="true"></i>Buy on Amazon</a>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <% } %>
