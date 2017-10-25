@@ -75,7 +75,29 @@ app.get("/connections", (req, res) => {
 });
 
 app.get("/library", (req, res) => {
-  res.render("user_books")
+  // This query retrieves a list of the user's books that are available to be loaned out.
+  let userId = 1;
+
+  knex
+    .select()
+    .from('user_books')
+    .innerJoin('books', 'user_books.book_id', 'books.id')
+    .where('user_books.user_id', userId)
+    .then((rows) => {
+      let title_loan = [];
+      let author_loan = [];
+      let status = [];
+      
+      for (var i = 0; i < rows.length; i++) {
+        title_loan[i] = rows[i].title;
+        author_loan[i] = rows[i].author;
+        status[i] = rows[i].status;
+      };
+      app.locals.title_loan = title_loan;
+      app.locals.author_loan = author_loan;
+      app.locals.status = status;
+      res.render("user_books")
+    })
 });
 
 //Listening to the appropriate PORT
@@ -107,21 +129,6 @@ function searchBooks(title, cb) {
   }
   request(url, callback);
 }
-
-/* This query retrieves a list of the user's books that are available to be loaned out.
-
-let userId = 1;
-
-knex
-  .select()
-  .from('user_books')
-  .innerJoin('books', 'user_books.book_id', 'books.id')
-  .where('user_books.user_id', userId)
-  .then((rows) => {
-    console.log(rows);
-}); 
-
-*/
 
 /* This query allows the user to add a book to their list.
 
