@@ -20,8 +20,10 @@ const knex = require("knex")({
 });
 
 var app = express();
-app.set ('view engine','ejs');
-app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 // app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(express.static('public'))
@@ -29,7 +31,7 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 // ENDPOINTS
 app.get("/", (req, res) => {
-  
+
   // This query retrieves a list of bestsellers.
   knex('books')
     .where('books.bestseller', 'true')
@@ -47,14 +49,32 @@ app.get("/", (req, res) => {
       app.locals.thumbnails = thumbnails;
       res.render("index")
     });
-  
+});
+
+app.post("/books", (req, res) => {
+  const input = req.body.input;
+  let title = [];
+  let author = [];
+  let thumbnail = [];
+
+  searchBooks(input, (books) => {
+    for (var i = 0; i < books.length; i++) {
+      title[i] = books[i].title;
+      author[i] = books[i].authors;
+      thumbnail[i] = books[i].picture;
+    };
+    app.locals.title = title;
+    app.locals.author = author;
+    app.locals.thumbnail = thumbnail;
+    res.render("index_show")
+  });
 });
 
 app.get("/connections", (req, res) => {
   res.render("connections")
 });
 
-app.get("/books", (req, res) => {
+app.get("/library", (req, res) => {
   res.render("user_books")
 });
 
@@ -64,29 +84,30 @@ app.listen(PORT, () => {
 });
 
 function searchBooks(title, cb) {
-  
-    title = urlEncode(title);
-    let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
-  
-    const callback = function(error, response, body) {
-      let result = JSON.parse(body);
-      if(result) {
-        books = [];
-        result.items.forEach((item) => {
-          book = {};
-          book.title = item.volumeInfo.title;
-          book.authors = item.volumeInfo.authors;
-          book.isbn = item.volumeInfo.industryIdentifiers[1].identifier;
-          book.picture = item.volumeInfo.imageLinks.smallThumbnail;
-          books.push(book);
-        })
-        cb(books);
-      }
-      return;
+
+  title = urlEncode(title);
+  let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
+
+  const callback = function (error, response, body) {
+    let result = JSON.parse(body);
+    console.log(body);
+    if (result) {
+      books = [];
+      result.items.forEach((item) => {
+        book = {};
+        book.title = item.volumeInfo.title;
+        book.authors = item.volumeInfo.authors;
+        book.isbn = item.volumeInfo.industryIdentifiers[1].identifier;
+        book.picture = item.volumeInfo.imageLinks.smallThumbnail;
+        books.push(book);
+      })
+      cb(books);
     }
-    request(url, callback);
+    return;
   }
-  
+  request(url, callback);
+}
+
 /* This query retrieves a list of the user's books that are available to be loaned out.
 
 let userId = 1;

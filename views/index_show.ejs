@@ -35,13 +35,13 @@
                     <div class="row p-3">
                         <% for (var i = 0; i < 9; i++) { %>
                             <div class="col-md-4 text-center">
-                                <img class="card-img-top mx-auto d-block" src="<%= searchBooks(book.picture) %>" alt="Card image cap" style="width:initial">
+                                <img class="card-img-top mx-auto d-block" src="<%= thumbnail[i] %>" alt="Card image cap" style="width:initial">
                                 <div class="card-block">
                                     <h6 class="card-title">
-                                        <%= searchBooks(book.title) %>
+                                        <%= title[i] %>
                                     </h6>
                                     <p class="card-text">
-                                        By <%= searchBooks (book.authors) %>
+                                        By <%= author[i] %>
                                     </p>
                                     <div class="row">
                                         <div class="col-sm">
@@ -60,6 +60,9 @@
                     </div>
                 </div>
             </div>
+            
+    <!-- Footer -->
+    <% include ./partials/_footer %>
 </body>
 
 </html>

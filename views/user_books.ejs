@@ -15,7 +15,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
         crossorigin="anonymous"></script>
-        
+
 </head>
 
 <body>
@@ -23,12 +23,21 @@
     <% include ./partials/_navbar %>
 
         <!-- Page Content -->
-        <div class="container">
-            <div class="jumbotron">
-                <h4 class="p-2">Add Book</h4>
+        <!-- <div class="container p-4">
+            <div class="jumbotron p-4">
+                <h4 class="p-2">Add Books</h4> -->
 
                 <!-- Search Bar -->
-                <% include ./partials/_searchbar %>
+                <!-- <% include ./partials/_searchbar %> -->
+
+                    <!-- Form Test -->
+                    <form>
+                        <div class="form-inline">
+                            <label for="formGroupExampleInput">Share Books</label>
+                            <input type="text"  class="form-control" id="formGroupExampleInput" placeholder="Example input">
+                            <button class="btn btn-primary" id="add-book">Search</button>
+                        </div>
+                    </form>
 
                     <!-- Manage Books -->
                     <div class="container">
@@ -57,4 +66,17 @@
         </div>
 </body>
 
+<script>
+    $(function () {
+
+        $("#add-book").on("click", function (event) {
+            event.preventDefault();
+            $(".list-group-item").prepend(".list-group")
+
+        });
+
+    });
+</script>
+
+<% include ./partials/_footer %>
 </html>

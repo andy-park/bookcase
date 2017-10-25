@@ -21,41 +21,39 @@
 <body>
   <!-- Navigation -->
   <% include ./partials/_navbar %>
+  <!-- Banner -->
+  <% include ./partials/_banner %>
+  <!-- Search Bar -->
+  <% include ./partials/_searchbar %>
 
-    <!-- Banner -->
-    <% include ./partials/_banner %>
+    <!-- Page Content -->
+    <div class="container">
+      <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
+    </div>
 
-      <!-- Search Bar -->
-      <% include ./partials/_searchbar %>
-
-        <!-- Page Content -->
-        <div class="container">
-          <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
-        </div>
-
-        <div class="container">
-          <div class="card-deck">
-            <div class="row p-3">
-              <% for (var i = 0; i < 12; i++) { %>
-                <div class="col-md-4 text-center">
-                  <img class="card-img-top mx-auto d-block" src="<%= thumbnails[i] %>" alt="Card image cap" style="width:initial">
-                  <div class="card-block">
-                    <h6 class="card-title" style="color:#253C31">
-                      <%= titles[i] %>
-                    </h6>
-                    <p class="card-text">
-                      By
-                      <%= authors[i] %>
-                    </p>
-                  </div>
-                </div>
-                <% } %>
+    <div class="container">
+      <div class="card-deck">
+        <div class="row p-3">
+          <% for (var i = 0; i < 12; i++) { %>
+            <div class="col-md-4 text-center">
+              <img class="card-img-top mx-auto d-block" src="<%= thumbnails[i] %>" alt="Card image cap" style="width:initial">
+              <div class="card-block">
+                <h6 class="card-title" style="color:#253C31">
+                  <%= titles[i] %>
+                </h6>
+                <p class="card-text">
+                  By
+                  <%= authors[i] %>
+                </p>
+              </div>
             </div>
-          </div>
+            <% } %>
         </div>
+      </div>
+    </div>
 
-        <!-- Footer -->
-        <% include ./partials/_footer %>
+  <!-- Footer -->
+  <% include ./partials/_footer %>
 </body>
 
 </html>
