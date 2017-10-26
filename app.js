@@ -99,7 +99,15 @@ knex
     [ userId, userId ]
   )
   .then((result) => {
-
+    result.rows.forEach((row) => {
+      knex
+        .select()
+        .from('users')
+        .where('users.id', row.id)
+        .then((user) => {
+          console.log(user);
+        })
+    });
     res.render("connections")
   });
 });
