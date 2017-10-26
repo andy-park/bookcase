@@ -4,7 +4,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -15,44 +15,44 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
         crossorigin="anonymous"></script>
-        
+
 </head>
 
 <body>
     <!-- Navigation -->
     <% include ./partials/_navbar %>
-    
-            <!-- Page Content -->
-            <div class="jumbotron" style="margin:30px">
-                <p class="lead">Manage Your Connections</p>
-                <hr class="my-2">
-                <p>Search for friends below using their first and last names or their email address.</p>
-                <form>
-                    <div class="form-group d-flex justify-content-center p-4">
-                        <input class="form-control col-sm-6 mr-sm-2" placeholder="Find friends">
-                        <button class="btn btn-outline-dark my-2 my-sm-0" id="add-friend">Search</button>
-                    </div>
-                </form>
-                <div class="panel-body">
-                    <div class="row-lg">
-                        <ul class="list-group">
-                            <!-- <% for (var i = 0; i < title_loan.length; i++) { %> -->
-                                <li class="list-group-item flex-column justify-content-between">
-                                    <h6 style="color:#253C31">
-                                        Friend 1
-                                    </h6>
-                                    <span class="action-buttons">
-                                        <i class="fa fa-minus-square-o p-2" aria-hidden="true"></i>
-                                    </span>
-                                </li>
-                                <!-- <% } %> -->
-                        </ul>
-                    </div>
+
+        <!-- Page Content -->
+        <div class="jumbotron" style="margin:30px">
+            <h6 class="lead">Manage Your Connections</h6>
+            <hr class="my-2">
+            <p>Search for friends below using their first and last names or their email address.</p>
+            <form>
+                <div class="form-group d-flex justify-content-center p-4">
+                    <input class="form-control col-sm-6 mr-sm-2" placeholder="Find friends">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" id="add-friend">Search</button>
+                </div>
+            </form>
+            <div class="panel-body">
+                <div class="row-lg">
+                    <ul class="list-group">
+                        <!-- <% for (var i = 0; i < title_loan.length; i++) { %> -->
+                        <li class="list-group-item flex-column justify-content-between">
+                            <h6>
+                                Friend 1
+                            </h6>
+                            <span class="action-buttons">
+                                <i class="fa fa-minus-square-o p-2" aria-hidden="true"></i>
+                            </span>
+                        </li>
+                        <!-- <% } %> -->
+                    </ul>
                 </div>
             </div>
-    
-            <!-- Footer -->
-            <% include ./partials/_footer %>
+        </div>
+
+        <!-- Footer -->
+        <% include ./partials/_footer %>
 </body>
 
 </html>
