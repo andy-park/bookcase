@@ -70,6 +70,7 @@ app.post("/books", (req, res) => {
   });
 });
 
+
 app.get("/connections", (req, res) => {
   //This query retrieves a list of the user's connections from where the user can borrow books.
 let userId = 1;
@@ -296,7 +297,7 @@ knex('connections')
 
 */
 
-amazon = require('amazon-product-api');
+const amazon = require('amazon-product-api');
 
 function searchBookForSale(isbn, cb) {
   var client = amazon.createClient({
@@ -317,4 +318,8 @@ function searchBookForSale(isbn, cb) {
       cb(amazonProductPageURL);
     }
   });
-}
+};
+
+// searchBookForSale('9780780431867', (url) => {
+//   console.log(url);
+// });

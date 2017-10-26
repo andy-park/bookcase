@@ -6,6 +6,7 @@
     "start": "node ./app.js"
   },
   "dependencies": {
+    "amazon-product-api": "^0.4.4",
     "body-parser": "~1.18.2",
     "bootstrap4": "0.0.1-security",
     "cookie-parser": "~1.4.3",
