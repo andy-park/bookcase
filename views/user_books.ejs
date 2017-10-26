@@ -27,34 +27,39 @@
             <div class="jumbotron p-4">
                 <h4 class="p-2">Add Books</h4> -->
 
-                    <!-- Form Test -->
-                    <form>
-                        <div class="form-inline">
-                            <label for="formGroupExampleInput">Add ISBN</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-                            <button class="btn btn-primary" id="add-book">Search</button>
-                        </div>
-                    </form>
+        <!-- Form Test -->
+        <form>
+            <div class="form-inline">
+                <label for="formGroupExampleInput">Add ISBN</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+                <button class="btn btn-primary" id="add-book">Search</button>
+            </div>
+        </form>
 
-                    <!-- Manage Books -->
-                    
-                    <div class="container">
-                        <ul class="list-group">
-                            <% for (var i = 0; i < title_loan.length; i++) { %>
-                            <li class="list-group-item">
-                                    <h6 style="color:#253C31">
-                                            <%= title_loan[i] %></h6>
-                                          <p>
-                                            By <%= author_loan[i] %></p>
+        <!-- Manage Books -->
+
+        <div class="container">
+            <div class="row-lg">
+                <ul class="list-group">
+                    <% for (var i = 0; i < title_loan.length; i++) { %>
+                        <li class="list-group-item">
+                            <h6 style="color:#253C31">
+                                <%= title_loan[i] %>
+                            </h6>
+                            <p>
+                                By
+                                <%= author_loan[i] %>
+                            </p>
                                 <span class="actions">
                                     <%= status %>
-                                    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
                                 </span>
-                            </li>
-                            <% } %>
-                        </ul>
-                    </div>
+                        </li>
+                        <% } %>
+                </ul>
             </div>
+        </div>
+        </div>
         </div>
 </body>
 
@@ -71,4 +76,5 @@
 </script>
 
 <% include ./partials/_footer %>
+
 </html>
