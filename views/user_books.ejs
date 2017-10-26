@@ -23,58 +23,52 @@
     <% include ./partials/_navbar %>
 
         <!-- Page Content -->
-        <!-- <div class="container p-4">
-            <div class="jumbotron p-4">
-                <h4 class="p-2">Add Books</h4> -->
-
-        <!-- Form Test -->
-        <form>
-            <div class="form-inline">
-                <label for="formGroupExampleInput">Add ISBN</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-                <button class="btn btn-primary" id="add-book">Search</button>
-            </div>
-        </form>
-
-        <!-- Manage Books -->
-
-        <div class="container">
-            <div class="row-lg">
-                <ul class="list-group">
-                    <% for (var i = 0; i < title_loan.length; i++) { %>
-                        <li class="list-group-item">
-                            <h6 style="color:#253C31">
-                                <%= title_loan[i] %>
-                            </h6>
-                            <p>
-                                By
-                                <%= author_loan[i] %>
-                            </p>
-                                <span class="actions">
-                                    <%= status %>
-                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+        <div class="jumbotron" style="margin:30px">
+            <p class="lead">Manage Your Library</p>
+            <hr class="my-2">
+            <p>Add books to your library for your friends to loan! Enter your book's ISBN or use your mobile phone to scan the
+                ISBN barcode.</p>
+            <form>
+                <div class="form-group d-flex justify-content-center p-4">
+                    <input class="form-control col-sm-6 mr-sm-2" placeholder="Add ISBN">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" id="add-book">Add</button>
+                </div>
+            </form>
+            <div class="panel-body">
+                <div class="row-lg">
+                    <ul class="list-group">
+                        <% for (var i = 0; i < title_loan.length; i++) { %>
+                            <li class="list-group-item flex-column justify-content-between">
+                                <h6 style="color:#253C31">
+                                    <%= title_loan[i] %>
+                                </h6>
+                                <small>
+                                    By
+                                    <%= author_loan[i] %>
+                                </small>
+                                <span class="action-buttons">
+                                    <i class="fa fa-book p-2" aria-hidden="true"></i>
+                                    <i class="fa fa-minus-square-o p-2" aria-hidden="true"></i>
                                 </span>
-                        </li>
-                        <% } %>
-                </ul>
+                            </li>
+                            <% } %>
+                    </ul>
+                </div>
             </div>
         </div>
-        </div>
-        </div>
+
+        <!-- Footer -->
+        <% include ./partials/_footer %>
 </body>
+
+</html>
+
 
 <script>
     $(function () {
-
         $("#add-book").on("click", function (event) {
             event.preventDefault();
-            $(".list-group-item").prepend(".list-group")
-
+            $("list-group-item").prependTo("<.list-group>")
         });
-
     });
 </script>
-
-<% include ./partials/_footer %>
-
-</html>
