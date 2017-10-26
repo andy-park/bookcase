@@ -295,3 +295,26 @@ knex('connections')
   });
 
 */
+
+amazon = require('amazon-product-api');
+
+function searchBookForSale(isbn, cb) {
+  var client = amazon.createClient({
+    awsId: process.env.AMAZON_API,
+    awsSecret: process.env.AMAZON_SECRET,
+    awsTag: process.env.AMAZON_ASSOCIATE
+  });
+
+  client.itemLookup({
+    domain: 'webservices.amazon.ca',
+    idType: 'ISBN',
+    itemId: isbn
+  }, function(err, results, response) {
+    if (err) {
+      console.log(err);
+    } else {
+      let amazonProductPageURL = results[0].DetailPageURL[0];
+      cb(amazonProductPageURL);
+    }
+  });
+}
