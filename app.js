@@ -56,17 +56,21 @@ app.post("/books", (req, res) => {
   let title = [];
   let author = [];
   let thumbnail = [];
+  let book_id = [];
 
   searchBooks(input, (books) => {
     for (var i = 0; i < books.length; i++) {
       title[i] = books[i].title;
       author[i] = books[i].authors;
       thumbnail[i] = books[i].picture;
+      book_id[i] = books[i].isbn;
     };
     app.locals.title = title;
     app.locals.author = author;
     app.locals.thumbnail = thumbnail;
+    app.locals.book_id = book_id;
     res.render("index_show")
+    console.log(book_id);
   });
 });
 
@@ -312,7 +316,7 @@ function searchBookForSale(isbn, cb) {
     itemId: isbn
   }, function(err, results, response) {
     if (err) {
-      console.log(err);
+      console.log(err.Error);
     } else {
       let amazonProductPageURL = results[0].DetailPageURL[0];
       cb(amazonProductPageURL);
@@ -320,6 +324,10 @@ function searchBookForSale(isbn, cb) {
   });
 };
 
-// searchBookForSale('9780780431867', (url) => {
-//   console.log(url);
+// searchBookForSale('9782371000193', (url) => {
+//   for (var i = 0; i < 10; i++) {
+//     url[i];
+
+//     console.log(url);
+//   }
 // });
