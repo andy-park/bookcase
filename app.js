@@ -101,52 +101,52 @@ app.get("/library", (req, res) => {
 });
 //This query allows the user to add a book to their list.
 
-  let isbn = "9781449462260"; // This item is in the books table.
-  let isbn2 = "9781449429379"; // This item will be added to the books table.
-  let title = "Big Nate I Can't Take It";
-  let author = "Lincoln Peirce";
-  let user_id = 1;
+  // let isbn = "9781449462260"; // This item is in the books table.
+  // let isbn2 = "9781449429379"; // This item will be added to the books table.
+  // let title = "Big Nate I Can't Take It";
+  // let author = "Lincoln Peirce";
+  // let user_id = 1;
 
-  knex
-    .column('id')
-    .from('books')
-    .where('isbn', isbn2)
-    .then((rows) => {
-      if (rows.length === 0) {
-        console.log("ISBN not found in books table.");
-        knex('books')
-          .returning('id')
-          .insert({
-            isbn: isbn2,
-            title: title,
-            author: author
-          })
-          .then((rows) => {
-            knex('user_books')
-              .returning('id')
-              .insert({
-                user_id: user_id,
-                book_id: rows[0],
-                status: 'true'
-              })
-              .then((rows) => {
-                console.log("Record added.");
-              })
-          })
-      } else {
-        console.log("ISBN found in books table.");
-        knex('user_books')
-          .returning('id')
-          .insert({
-            user_id: user_id,
-            book_id: rows[0].id,
-            status: 'true'
-          })
-          .then((rows) => {
-            console.log("Record added.");
-          })
-      }
-    });
+  // knex
+  //   .column('id')
+  //   .from('books')
+  //   .where('isbn', isbn2)
+  //   .then((rows) => {
+  //     if (rows.length === 0) {
+  //       console.log("ISBN not found in books table.");
+  //       knex('books')
+  //         .returning('id')
+  //         .insert({
+  //           isbn: isbn2,
+  //           title: title,
+  //           author: author
+  //         })
+  //         .then((rows) => {
+  //           knex('user_books')
+  //             .returning('id')
+  //             .insert({
+  //               user_id: user_id,
+  //               book_id: rows[0],
+  //               status: 'true'
+  //             })
+  //             .then((rows) => {
+  //               console.log("Record added.");
+  //             })
+  //         })
+  //     } else {
+  //       console.log("ISBN found in books table.");
+  //       knex('user_books')
+  //         .returning('id')
+  //         .insert({
+  //           user_id: user_id,
+  //           book_id: rows[0].id,
+  //           status: 'true'
+  //         })
+  //         .then((rows) => {
+  //           console.log("Record added.");
+  //         })
+  //     }
+  //   });
 
 //Listening to the appropriate PORT
 app.listen(PORT, () => {
