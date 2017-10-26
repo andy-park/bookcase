@@ -154,29 +154,49 @@ app.listen(PORT, () => {
 });
 
 function searchBooks(title, cb) {
-
-  title = urlEncode(title);
-  let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
-
-  const callback = function (error, response, body) {
-    let result = JSON.parse(body);
-    console.log(body);
-    if (result) {
-      books = [];
-      result.items.forEach((item) => {
-        book = {};
-        book.title = item.volumeInfo.title;
-        book.authors = item.volumeInfo.authors;
-        book.isbn = item.volumeInfo.industryIdentifiers[1].identifier;
-        book.picture = item.volumeInfo.imageLinks.smallThumbnail;
-        books.push(book);
-      })
-      cb(books);
+  
+    title = urlEncode(title);
+    let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
+  
+    const callback = function(error, response, body) {
+      let result = JSON.parse(body);
+      if(result.error == undefined && result.items.length != 0) {
+        books = [];
+        result.items.forEach((item) => {
+          book = {};
+          book.title = item.volumeInfo.title;
+          if(item.volumeInfo.authors != undefined) {
+            book.authors = item.volumeInfo.authors;
+          } else {
+            book.authors = ["Unknown"];
+          }
+          if(item.volumeInfo.industryIdentifiers != undefined) {
+            item.volumeInfo.industryIdentifiers.forEach((identifier) => {
+              if(identifier.type == "ISBN_13") {
+                book.isbn = identifier.identifier
+              }
+            });
+            if(book.isbn == undefined) {
+              book.isbn = "";  
+            }
+          } else {
+            book.isbn = "";
+          }
+          if (item.volumeInfo.imageLinks != undefined) {
+            book.picture = item.volumeInfo.imageLinks.smallThumbnail;
+          } else {
+            book.picture = "./public/assets/Image-not-found.gif";
+          }
+          books.push(book);
+        })
+        cb(books);
+      }
+      return;
     }
-    return;
+    request(url, callback);
   }
-  request(url, callback);
-}
+
+
 
 /* This query allows the user to remove a book from their list.
 
