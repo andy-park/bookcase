@@ -44,9 +44,9 @@ app.get("/", (req, res) => {
         authors[i] = rows[i].author;
         thumbnails[i] = rows[i].picture;
       };
-      app.locals.titles = titles;
-      app.locals.authors = authors;
-      app.locals.thumbnails = thumbnails;
+      res.locals.titles = titles;
+      res.locals.authors = authors;
+      res.locals.thumbnails = thumbnails;
       res.render("index")
     });
 });
@@ -65,13 +65,24 @@ app.post("/books", (req, res) => {
       thumbnail[i] = books[i].picture;
       book_id[i] = books[i].isbn;
     };
-    app.locals.title = title;
-    app.locals.author = author;
-    app.locals.thumbnail = thumbnail;
-    app.locals.book_id = book_id;
-    res.render("index_show")
-    console.log(book_id);
-  });
+    res.locals.title = title;
+    res.locals.author = author;
+    res.locals.thumbnail = thumbnail;
+    res.locals.book_id = book_id;
+
+    var urls = [];
+    var hardcodeURL=[1,2,3];
+    for (var i = 0; i < book_id.length; i++) {
+      searchBookForSale(book_id[i], (url) => {
+        //res.locals.url.push(url)
+        // console.log(url);
+        urls.push(url);
+        console.log('\tgggg:', url);
+        //console.log(res.locals.url[i]);
+      });
+    }
+    return res.render("index_show")
+  })
 });
 
 
@@ -105,10 +116,21 @@ knex
         .from('users')
         .where('users.id', row.id)
         .then((user) => {
-          console.log(user);
+          let first = [];
+          let last = [];
+          let email = [];
+
+          for (var i = 0; i < user.length; i++) {
+            first[i] = user[i].first_name;
+            last[i] = user[i].last_name;
+            email[i] = user[i].email;
+          };
+          res.locals.first = first;
+          res.locals.last = last;
+          res.locals.email = email;
+          res.render("connections")
         })
     });
-    res.render("connections")
   });
 });
 
@@ -131,9 +153,9 @@ app.get("/library", (req, res) => {
         author_loan[i] = rows[i].author;
         status[i] = rows[i].status;
       };
-      app.locals.title_loan = title_loan;
-      app.locals.author_loan = author_loan;
-      app.locals.status = status;
+      res.locals.title_loan = title_loan;
+      res.locals.author_loan = author_loan;
+      res.locals.status = status;
       res.render("user_books")
     })
 });
@@ -296,19 +318,6 @@ knex('connections')
 
 */
 
-/* This query removes a connection.
-
-let connectionId = 2;
-
-knex('connections')
-  .where('connections.id', connectionId)
-  .del()
-  .then( (rows) => {
-    console.log("Record removed.");
-  });
-
-*/
-
 const amazon = require('amazon-product-api');
 
 function searchBookForSale(isbn, cb) {
@@ -331,11 +340,3 @@ function searchBookForSale(isbn, cb) {
     }
   });
 };
-
-// searchBookForSale('9782371000193', (url) => {
-//   for (var i = 0; i < 10; i++) {
-//     url[i];
-
-//     console.log(url);
-//   }
-// });
