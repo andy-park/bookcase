@@ -70,17 +70,6 @@ app.post("/books", (req, res) => {
     res.locals.thumbnail = thumbnail;
     res.locals.book_id = book_id;
 
-    var urls = [];
-    var hardcodeURL=[1,2,3];
-    for (var i = 0; i < book_id.length; i++) {
-      searchBookForSale(book_id[i], (url) => {
-        //res.locals.url.push(url)
-        // console.log(url);
-        urls.push(url);
-        console.log('\tgggg:', url);
-        //console.log(res.locals.url[i]);
-      });
-    }
     return res.render("index_show")
   })
 });
@@ -147,66 +136,96 @@ app.get("/library", (req, res) => {
       let title_loan = [];
       let author_loan = [];
       let status = [];
+      let userId = [];
+      let bookId = [];
 
       for (var i = 0; i < rows.length; i++) {
         title_loan[i] = rows[i].title;
         author_loan[i] = rows[i].author;
         status[i] = rows[i].status;
+        userId[i] = rows[i].user_id;
+        bookId[i] = rows[i].book_id;
       };
       res.locals.title_loan = title_loan;
       res.locals.author_loan = author_loan;
       res.locals.status = status;
+      res.locals.userId = userId;
+      res.locals.bookId = bookId;
       res.render("user_books")
     })
 });
-//This query allows the user to add a book to their list.
 
-  // let isbn = "9781449462260"; // This item is in the books table.
-  // let isbn2 = "9781449429379"; // This item will be added to the books table.
-  // let title = "Big Nate I Can't Take It";
-  // let author = "Lincoln Peirce";
-  // let user_id = 1;
+//This query allows the user to remove a book from their list.
+app.post("/library/delete", (req, res) => {
+  const bookId = req.body.bookId;
+  const userId = req.body.userId;
 
-  // knex
-  //   .column('id')
-  //   .from('books')
-  //   .where('isbn', isbn2)
-  //   .then((rows) => {
-  //     if (rows.length === 0) {
-  //       console.log("ISBN not found in books table.");
-  //       knex('books')
-  //         .returning('id')
-  //         .insert({
-  //           isbn: isbn2,
-  //           title: title,
-  //           author: author
-  //         })
-  //         .then((rows) => {
-  //           knex('user_books')
-  //             .returning('id')
-  //             .insert({
-  //               user_id: user_id,
-  //               book_id: rows[0],
-  //               status: 'true'
-  //             })
-  //             .then((rows) => {
-  //               console.log("Record added.");
-  //             })
-  //         })
-  //     } else {
-  //       console.log("ISBN found in books table.");
-  //       knex('user_books')
-  //         .returning('id')
-  //         .insert({
-  //           user_id: user_id,
-  //           book_id: rows[0].id,
-  //           status: 'true'
-  //         })
-  //         .then((rows) => {
-  //           console.log("Record added.");
-  //         })
-  //     }
-  //   });
+  knex('user_books')
+    .where('user_books.book_id', bookId)
+    .andWhere('user_books.user_id', userId)
+    .del()
+    .then( (rows) => {
+    });
+    console.log("Record removed.");
+  });
+
+
+// app.post("/library", (req, res) => {
+// //This query allows the user to add a book to their list.
+//   let isbn = "9781449462260"; // This item is in the books table.
+//   const isbn2 = req.body.input; // This item will be added to the books table.
+//   let title = "Big Nate I Can't Take It";
+//   let author = "Lincoln Peirce";
+//   let user_id = 1;
+
+//   knex
+//     .column('id')
+//     .from('books')
+//     .where('isbn', isbn2)
+//     .then((rows) => {
+//       if (rows.length === 0) {
+//         console.log("ISBN not found in books table.");
+//         knex('books')
+//           .returning('id')
+//           .insert({
+//             isbn: isbn2,
+//             title: title,
+//             author: author
+//           })
+//           .then((rows) => {
+//             knex('user_books')
+//               .returning('id')
+//               .insert({
+//                 user_id: user_id,
+//                 book_id: rows[0],
+//                 status: 'true'
+//               })
+//               .then((rows) => {
+//                 $(function () {
+//                     $("#add-book").on("click", function (event) {
+//                       event.preventDefault();
+//                       // console.log(( $(this).serialize() ));
+//                      $("list-group").prepend(".list-group");
+//                     });
+//                 });
+//                 console.log("Record added.");
+//               })
+//           })
+//       } else {
+//         console.log("ISBN found in books table.");
+//         knex('user_books')
+//           .returning('id')
+//           .insert({
+//             user_id: user_id,
+//             book_id: rows[0].id,
+//             status: 'true'
+//           })
+//           .then((rows) => {
+//             console.log("Record added.");
+//           })
+//       }
+//     });
+//   });
 
 //Listening to the appropriate PORT
 app.listen(PORT, () => {
@@ -255,21 +274,6 @@ function searchBooks(title, cb) {
     }
     request(url, callback);
   }
-
-
-
-/* This query allows the user to remove a book from their list.
-
-let userBookId = 7;
-
-knex('user_books')
-  .where('user_books.id', userBookId)
-  .del()
-  .then( (rows) => {
-    console.log("Record removed.");
-  });
-
-*/
 
 /* This query allows the user to update the status of a book on their list.
 

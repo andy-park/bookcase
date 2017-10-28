@@ -8,8 +8,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
@@ -28,7 +27,7 @@
             <hr class="my-2">
             <p>Add books to your library for your friends to loan! Enter your book's ISBN or use your mobile phone to scan the
                 ISBN barcode.</p>
-            <form>
+            <form method="post" action="/library">
                 <div class="form-group d-flex justify-content-center p-4">
                     <input class="form-control col-sm-6 mr-sm-2" placeholder="Add ISBN">
                     <button class="btn btn-outline-dark my-2 my-sm-0" id="add-book">Add</button>
@@ -47,8 +46,8 @@
                                     <%= author_loan[i] %>
                                 </small>
                                 <span class="action-buttons">
-                                    <i class="fa fa-book p-2" aria-hidden="true"></i>
-                                    <i class="fa fa-minus-square-o p-2" aria-hidden="true"></i>
+                                    <i class="fa fa-book p-2" data-book-id="<%= bookId[i] %>" data-user-id="<%= userId[i] %>" aria-hidden="true"></i>
+                                    <i class="fa fa-minus-square-o p-2 delete-button"  data-book-id="<%= bookId[i] %>" data-user-id="<%= userId[i] %>" aria-hidden="true"></i>
                                 </span>
                             </li>
                             <% } %>
@@ -63,12 +62,28 @@
 
 </html>
 
-
 <script>
     $(function () {
-        $("#add-book").on("click", function (event) {
-            event.preventDefault();
-            $("list-group").prependTo(".list-group")
+        $(".list-group-item").each(function () {
+            const groupItem = this;
+            $(this).on("click", ".delete-button", function () {
+                const bookId = Number($(this).data('book-id'));
+                const userId = Number($(this).data('user-id'));
+                $.ajax({
+                    type: 'post',
+                    url: '/library/delete',
+                    data: { bookId, userId },
+                    success: function (result) {
+                        console.log("it was success");
+                        console.log(result);
+                    },
+                    failure: function(err) {
+                        console.log("there was an error");
+                        console.log(err)
+                    }
+                });
+                groupItem.remove()
+            });
         });
     });
 </script>
