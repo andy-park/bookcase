@@ -77,49 +77,63 @@ app.post("/books", (req, res) => {
 
 app.get("/connections", (req, res) => {
   //This query retrieves a list of the user's connections from where the user can borrow books.
-let userId = 1;
+  let userId = 1;
 
-knex
-  .raw(
-    'SELECT friends.id ' +
-    'FROM ' +
-    'users JOIN connections ' +
-    'ON users.id = connections.user1_id ' +
-    'JOIN users AS friends ' +
-    'ON connections.user2_id = friends.id ' +
-    'WHERE users.id = ? ' +
-    'UNION ' +
-    'SELECT friends.id ' +
-    'FROM ' +
-    'users AS friends JOIN connections ' +
-    'ON friends.id = connections.user1_id ' +
-    'JOIN users ' +
-    'ON connections.user2_id = users.id ' +
-    'WHERE users.id = ? ',
-    [ userId, userId ]
-  )
-  .then((result) => {
-    result.rows.forEach((row) => {
-      knex
-        .select()
-        .from('users')
-        .where('users.id', row.id)
-        .then((user) => {
-          let first = [];
-          let last = [];
-          let email = [];
+  knex
+    .raw(
+      'SELECT friends.id ' +
+      'FROM ' +
+      'users JOIN connections ' +
+      'ON users.id = connections.user1_id ' +
+      'JOIN users AS friends ' +
+      'ON connections.user2_id = friends.id ' +
+      'WHERE users.id = ? ' +
+      'UNION ' +
+      'SELECT friends.id ' +
+      'FROM ' +
+      'users AS friends JOIN connections ' +
+      'ON friends.id = connections.user1_id ' +
+      'JOIN users ' +
+      'ON connections.user2_id = users.id ' +
+      'WHERE users.id = ? ', [userId, userId]
+    )
+    .then((result) => {
+      result.rows.forEach((row) => {
+        knex
+          .select()
+          .from('users')
+          .where('users.id', row.id)
+          .then((user) => {
+            let first = [];
+            let last = [];
+            let email = [];
+            let userId = [];
 
-          for (var i = 0; i < user.length; i++) {
-            first[i] = user[i].first_name;
-            last[i] = user[i].last_name;
-            email[i] = user[i].email;
-          };
-          res.locals.first = first;
-          res.locals.last = last;
-          res.locals.email = email;
-          res.render("connections")
-        })
+            for (var i = 0; i < user.length; i++) {
+              first[i] = user[i].first_name;
+              last[i] = user[i].last_name;
+              email[i] = user[i].email;
+              userId[i] = user[i].id;
+            };
+            res.locals.first = first;
+            res.locals.last = last;
+            res.locals.email = email;
+            res.locals.userId = userId;
+            res.render("connections")
+          })
+      });
     });
+});
+
+app.post("/connections/delete", (req, res) => {
+// This query removes a connection. 
+  const user = req.body.user;
+
+  knex('connections')
+    .where('connections.user2_id', user)
+    .del()
+    .then( (rows) => {
+      console.log("Record removed.");
   });
 });
 
@@ -155,6 +169,20 @@ app.get("/library", (req, res) => {
     })
 });
 
+// //This query allows the user to update the status of a book on their list.
+//   let userBookId = 10;
+//   let status = 'false'
+
+//   knex('user_books')
+//     .where('user_books.id', userBookId)
+//     .update({
+//       status: status
+//     })
+//     .then((rows) => {
+//       console.log("Record updated");
+//     });
+
+
 //This query allows the user to remove a book from their list.
 app.post("/library/delete", (req, res) => {
   const bookId = req.body.bookId;
@@ -164,10 +192,9 @@ app.post("/library/delete", (req, res) => {
     .where('user_books.book_id', bookId)
     .andWhere('user_books.user_id', userId)
     .del()
-    .then( (rows) => {
-    });
-    console.log("Record removed.");
-  });
+    .then((rows) => {});
+  console.log("Record removed.");
+});
 
 
 // app.post("/library", (req, res) => {
@@ -201,13 +228,6 @@ app.post("/library/delete", (req, res) => {
 //                 status: 'true'
 //               })
 //               .then((rows) => {
-//                 $(function () {
-//                     $("#add-book").on("click", function (event) {
-//                       event.preventDefault();
-//                       // console.log(( $(this).serialize() ));
-//                      $("list-group").prepend(".list-group");
-//                     });
-//                 });
 //                 console.log("Record added.");
 //               })
 //           })
@@ -233,61 +253,47 @@ app.listen(PORT, () => {
 });
 
 function searchBooks(title, cb) {
-  
-    title = urlEncode(title);
-    let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
-  
-    const callback = function(error, response, body) {
-      let result = JSON.parse(body);
-      if(result.error == undefined && result.items.length != 0) {
-        books = [];
-        result.items.forEach((item) => {
-          book = {};
-          book.title = item.volumeInfo.title;
-          if(item.volumeInfo.authors != undefined) {
-            book.authors = item.volumeInfo.authors;
-          } else {
-            book.authors = ["Unknown"];
-          }
-          if(item.volumeInfo.industryIdentifiers != undefined) {
-            item.volumeInfo.industryIdentifiers.forEach((identifier) => {
-              if(identifier.type == "ISBN_13") {
-                book.isbn = identifier.identifier
-              }
-            });
-            if(book.isbn == undefined) {
-              book.isbn = "";  
+
+  title = urlEncode(title);
+  let url = "https://www.googleapis.com/books/v1/volumes" + "?q=" + title + "&key=" + process.env.GOOGLE_BOOKS_API
+
+  const callback = function (error, response, body) {
+    let result = JSON.parse(body);
+    if (result.error == undefined && result.items.length != 0) {
+      books = [];
+      result.items.forEach((item) => {
+        book = {};
+        book.title = item.volumeInfo.title;
+        if (item.volumeInfo.authors != undefined) {
+          book.authors = item.volumeInfo.authors;
+        } else {
+          book.authors = ["Unknown"];
+        }
+        if (item.volumeInfo.industryIdentifiers != undefined) {
+          item.volumeInfo.industryIdentifiers.forEach((identifier) => {
+            if (identifier.type == "ISBN_13") {
+              book.isbn = identifier.identifier
             }
-          } else {
+          });
+          if (book.isbn == undefined) {
             book.isbn = "";
           }
-          if (item.volumeInfo.imageLinks != undefined) {
-            book.picture = item.volumeInfo.imageLinks.smallThumbnail;
-          } else {
-            book.picture = "./public/assets/Image-not-found.gif";
-          }
-          books.push(book);
-        })
-        cb(books);
-      }
-      return;
+        } else {
+          book.isbn = "";
+        }
+        if (item.volumeInfo.imageLinks != undefined) {
+          book.picture = item.volumeInfo.imageLinks.smallThumbnail;
+        } else {
+          book.picture = "./public/assets/Image-not-found.gif";
+        }
+        books.push(book);
+      })
+      cb(books);
     }
-    request(url, callback);
+    return;
   }
-
-/* This query allows the user to update the status of a book on their list.
-
-let userBookId = 10;
-let status = 'false'
-
-knex('user_books')
-  .where('user_books.id', userBookId)
-  .update({ status: status })
-  .then((rows) => {
-    console.log("Record updated");
-  });
-
-*/
+  request(url, callback);
+}
 
 /* This query allows a user to search for another user.
 
@@ -335,7 +341,7 @@ function searchBookForSale(isbn, cb) {
     domain: 'webservices.amazon.ca',
     idType: 'ISBN',
     itemId: isbn
-  }, function(err, results, response) {
+  }, function (err, results, response) {
     if (err) {
       console.log(err.Error);
     } else {

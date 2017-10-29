@@ -46,7 +46,7 @@
                                     <%= author_loan[i] %>
                                 </small>
                                 <span class="action-buttons">
-                                    <i class="fa fa-book p-2" data-book-id="<%= bookId[i] %>" data-user-id="<%= userId[i] %>" aria-hidden="true"></i>
+                                    <i class="fa fa-book p-2" aria-hidden="true"></i>
                                     <i class="fa fa-minus-square-o p-2 delete-button"  data-book-id="<%= bookId[i] %>" data-user-id="<%= userId[i] %>" aria-hidden="true"></i>
                                 </span>
                             </li>
@@ -74,12 +74,8 @@
                     url: '/library/delete',
                     data: { bookId, userId },
                     success: function (result) {
-                        console.log("it was success");
-                        console.log(result);
                     },
                     failure: function(err) {
-                        console.log("there was an error");
-                        console.log(err)
                     }
                 });
                 groupItem.remove()
