@@ -171,9 +171,8 @@ app.get("/library", (req, res) => {
 
 app.post("/library/status", (req, res) => {
 //This query allows the user to update the status of a book on their list.
-  userBookId = req.body.userBookId;
-  status = req.body.status;
- //console.log(showStatus);
+  const userBookId = req.body.userBookId;
+  const status = req.body.status;
  
   knex('user_books')
     .where('user_books.id', userBookId)
@@ -183,7 +182,6 @@ app.post("/library/status", (req, res) => {
     .then((rows) => {
       console.log("Record updated");
     });
-
 });
 
 app.post("/library/delete", (req, res) => {
