@@ -34,10 +34,10 @@
             </form>
             <div>
                 <table>
-                    <tr class="search-field">
+                    <tr class="search-row">
                         <td class="search-name"></td>
                         <td class="search-email"></td>
-                        <td></td>
+                        <td class="add-button"></td>
                     </tr>
                 </table>
             </div>
@@ -81,17 +81,29 @@
                 data: { input: input },
                 success: function(results) {
                     let newResults = JSON.parse(results);
-                    
                     let name = $('.search-name').text(newResults[0].first_name + (' ') + (newResults[0].last_name));
                     let email = $('.search-email').text(newResults[0].email);
-                    let addFriend = $('<td><i class="fa fa-plus" aria-hidden="true"></i></td>')
+                    let addFriend = $('.friend-add').add('<i class="fa fa-plus friend-add" data-my-id="<%= userId[0] %>" aria-hidden="true"></i>').attr('data-friend-id', newResults[0].id);
 
-                    $('.search-field').append(name, email, addFriend);
+                    $('.search-row').append(name, email, addFriend);
                     
+                    $('.friend-add').on('click', function () {
+                        var myId = 1;
+                        var friendId = Number($(this).data('friend-id'));
+                        console.log(myId, friendId);
+                        $.ajax({
+                            type: 'post',
+                            url: '/connections/add',
+                            data: { myId, friendId },
+                            success: function (result) {
+                            },
+                            failure: function(err) {
+                            }
+                        });
+                    });
                 }
             })
         });
-
 
         $(".list-group-item").each(function () {
             const groupItem = this;

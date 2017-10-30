@@ -145,7 +145,19 @@ app.get("/connections/search", (req, res) => {
       
       res.send(JSON.stringify(result.rows));
     });
+});
 
+app.post("/connections/add", (req, res) => {
+  //This query adds a connection.
+  let user1 = req.body.myId;
+  let user2 = req.body.friendId;
+
+  knex('connections')
+    .returning('id')
+    .insert({ user1_id: user1, user2_id: user2 })
+    .then((rows) => {
+      console.log("Record added.");
+  });
 });
 
 app.post("/connections/delete", (req, res) => {
@@ -318,20 +330,6 @@ function searchBooks(title, cb) {
   }
   request(url, callback);
 }
-
-/* This query adds a connection.
-
-let user1 = 1;
-let user2 = 3;
-
-knex('connections')
-  .returning('id')
-  .insert({ user1_id: user1, user2_id: user2 })
-  .then((rows) => {
-    console.log("Record added.");
-  });
-
-*/
 
 const amazon = require('amazon-product-api');
 
