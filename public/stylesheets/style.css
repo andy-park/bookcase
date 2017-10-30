@@ -50,6 +50,14 @@ hr {
   overflow: visible
 }
 
+.status-button {
+  color: green;
+}
+
+.status-button.red {
+  color: red;
+}
+
 pre {
   font-family: monospace, monospace;
   font-size: 1em
@@ -128,7 +136,8 @@ audio:not([controls]) {
 }
 
 img {
-  border-style: none
+  border-style: none;
+  margin: auto
 }
 
 svg:not(:root) {

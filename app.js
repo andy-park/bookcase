@@ -169,22 +169,25 @@ app.get("/library", (req, res) => {
     })
 });
 
-// //This query allows the user to update the status of a book on their list.
-//   let userBookId = 10;
-//   let status = 'false'
+app.post("/library/status", (req, res) => {
+//This query allows the user to update the status of a book on their list.
+  userBookId = req.body.userBookId;
+  status = req.body.status;
+ //console.log(showStatus);
+ 
+  knex('user_books')
+    .where('user_books.id', userBookId)
+    .update({
+      status: status
+    })
+    .then((rows) => {
+      console.log("Record updated");
+    });
 
-//   knex('user_books')
-//     .where('user_books.id', userBookId)
-//     .update({
-//       status: status
-//     })
-//     .then((rows) => {
-//       console.log("Record updated");
-//     });
+});
 
-
-//This query allows the user to remove a book from their list.
 app.post("/library/delete", (req, res) => {
+  //This query allows the user to remove a book from their list.
   const bookId = req.body.bookId;
   const userId = req.body.userId;
 

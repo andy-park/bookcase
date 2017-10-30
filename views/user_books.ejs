@@ -46,8 +46,8 @@
                                     <%= author_loan[i] %>
                                 </small>
                                 <span class="action-buttons">
-                                    <i class="fa fa-book p-2" aria-hidden="true"></i>
-                                    <i class="fa fa-minus-square-o p-2 delete-button"  data-book-id="<%= bookId[i] %>" data-user-id="<%= userId[i] %>" aria-hidden="true"></i>
+                                    <i class="fa fa-book p-2 status-button" aria-hidden="true" data-user-book="<%= bookId[i] %>" data-status="<%= status[i] %>"></i>
+                                    <i class="fa fa-minus-square-o p-2 delete-button" data-book-id="<%= bookId[i] %>" data-user-id="<%= userId[i] %>" aria-hidden="true"></i>
                                 </span>
                             </li>
                             <% } %>
@@ -81,5 +81,36 @@
                 groupItem.remove()
             });
         });
+        
+        $(".status-button").on('click', function () {
+            let showStatus = ($(this).data('status'));
+            let newStatus = !showStatus;
+            let userBook = ($(this).data('user-book'));
+            
+            $.ajax({
+                type: 'post',
+                url: '/library/status',
+                data: { 
+                    status: newStatus,
+                    userBookId: userBook
+                }
+                
+            });
+
+            ($(this).toggleClass("red"));
+            if(showStatus == true) {
+                ($(this).data('status', false));
+            } else {
+                ($(this).data('status', true));
+            }
+        })
+            
+        
+           
+            
+            // if ($(this).toggleClass("red")) {
+            
+            // }
+       // });
     });
 </script>
