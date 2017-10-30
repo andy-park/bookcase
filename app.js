@@ -125,6 +125,29 @@ app.get("/connections", (req, res) => {
     });
 });
 
+app.get("/connections/search", (req, res) => {
+  console.log(req.query.input);
+//This query allows a user to search for another user.
+
+  let searchString = req.query.input;
+
+  knex
+    .raw(
+      'SELECT * ' +
+      'FROM users ' +
+      'WHERE lower(first_name) like lower(?) ' +
+      'OR lower(last_name) like lower(?) ' +
+      'OR lower(email) like lower(?);',
+      ["%" + searchString + "%", "%" + searchString + "%", "%" + searchString + "%"]
+    )
+    .then((result) => {
+      console.log(result.rows[0].first_name + " " + result.rows[0].last_name);
+      
+      res.send(JSON.stringify(result.rows));
+    });
+
+});
+
 app.post("/connections/delete", (req, res) => {
 // This query removes a connection. 
   const user = req.body.user;
@@ -295,25 +318,6 @@ function searchBooks(title, cb) {
   }
   request(url, callback);
 }
-
-/* This query allows a user to search for another user.
-
-let searchString = "Wil";
-
-knex
-  .raw(
-    'SELECT * ' +
-    'FROM users ' +
-    'WHERE lower(first_name) like lower(?) ' +
-    'OR lower(last_name) like lower(?) ' +
-    'OR lower(email) like lower(?);',
-    ["%" + searchString + "%", "%" + searchString + "%", "%" + searchString + "%"]
-  )
-  .then((result) => {
-    console.log(result.rows[0].first_name + " " + result.rows[0].last_name);
-  });
-
-*/
 
 /* This query adds a connection.
 
