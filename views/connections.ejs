@@ -28,7 +28,7 @@
             <p>Search for friends by their first and last names or their email address.</p>
             <form>
                 <div class="form-group d-flex justify-content-center p-4">
-                    <input class="form-control col-sm-6 mr-sm-2 search-friend" placeholder="Find friends">
+                    <input class="form-control col-sm-6 mr-sm-2 search-friend" type="text" placeholder="Find friends">
                     <button class="btn btn-outline-dark my-2 my-sm-0 fire-button create-list">Search</button>
                 </div>
             </form>
@@ -91,11 +91,11 @@
                         var myId = 1;
                         var friendId = Number($(this).data('friend-id'));
                         console.log(myId, friendId);
+                        $('.search-friend').val('');
                         $.ajax({
                             type: 'post',
                             url: '/connections/add',
                             data: { myId, friendId }
-                            
                         /*  success: function (result) {
                                 $.ajax({
                                     type: 'get',
@@ -112,6 +112,7 @@
 
                         */
                         });
+                        $('.search-row').remove();
                     });
                 }
             })
