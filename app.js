@@ -74,7 +74,6 @@ app.post("/books", (req, res) => {
   })
 });
 
-
 app.get("/connections", (req, res) => {
   //This query retrieves a list of the user's connections from where the user can borrow books.
   let userId = 1;
@@ -146,6 +145,56 @@ app.get("/connections/search", (req, res) => {
       res.send(JSON.stringify(result.rows));
     });
 });
+
+app.get("/connections/add", (req, res) => {
+  let userId = 1;
+  
+  knex
+    .raw(
+      'SELECT friends.id ' +
+      'FROM ' +
+      'users JOIN connections ' +
+      'ON users.id = connections.user1_id ' +
+      'JOIN users AS friends ' +
+      'ON connections.user2_id = friends.id ' +
+      'WHERE users.id = ? ' +
+      'UNION ' +
+      'SELECT friends.id ' +
+      'FROM ' +
+      'users AS friends JOIN connections ' +
+      'ON friends.id = connections.user1_id ' +
+      'JOIN users ' +
+      'ON connections.user2_id = users.id ' +
+      'WHERE users.id = ? ', [userId, userId]
+    )
+    .then((result) => {
+      result.rows.forEach((row) => {
+        knex
+          .select()
+          .from('users')
+          .where('users.id', row.id)
+          .then((user) => {
+            
+            console.log(user);
+
+            // let first = [];
+            // let last = [];
+            // let email = [];
+            // let userId = [];
+
+            // for (var i = 0; i < user.length; i++) {
+            //   first[i] = user[i].first_name;
+            //   last[i] = user[i].last_name;
+            //   email[i] = user[i].email;
+            //   userId[i] = user[i].id;
+            // };
+            
+            res.send("TEST");
+
+          })
+      });
+    });
+})
 
 app.post("/connections/add", (req, res) => {
   //This query adds a connection.
@@ -228,60 +277,60 @@ app.post("/library/delete", (req, res) => {
     .where('user_books.book_id', bookId)
     .andWhere('user_books.user_id', userId)
     .del()
-    .then((rows) => {});
-  console.log("Record removed.");
+    .then((rows) => {
+      console.log("Record removed.");
+    });
 });
 
-
-// app.post("/library", (req, res) => {
-// //This query allows the user to add a book to their list.
-//   let isbn = "9781449462260"; // This item is in the books table.
-//   const isbn2 = req.body.input; // This item will be added to the books table.
-//   let title = "Big Nate I Can't Take It";
-//   let author = "Lincoln Peirce";
-//   let user_id = 1;
-
-//   knex
-//     .column('id')
-//     .from('books')
-//     .where('isbn', isbn2)
-//     .then((rows) => {
-//       if (rows.length === 0) {
-//         console.log("ISBN not found in books table.");
-//         knex('books')
-//           .returning('id')
-//           .insert({
-//             isbn: isbn2,
-//             title: title,
-//             author: author
-//           })
-//           .then((rows) => {
-//             knex('user_books')
-//               .returning('id')
-//               .insert({
-//                 user_id: user_id,
-//                 book_id: rows[0],
-//                 status: 'true'
-//               })
-//               .then((rows) => {
-//                 console.log("Record added.");
-//               })
-//           })
-//       } else {
-//         console.log("ISBN found in books table.");
-//         knex('user_books')
-//           .returning('id')
-//           .insert({
-//             user_id: user_id,
-//             book_id: rows[0].id,
-//             status: 'true'
-//           })
-//           .then((rows) => {
-//             console.log("Record added.");
-//           })
-//       }
-//     });
-//   });
+app.post("/library", (req, res) => {
+//This query allows the user to add a book to their list.
+  let isbn = req.body.bookNum; // This item is in the books table.
+  // const isbn2 = "9781449429379"; // This item will be added to the books table.
+  // let title = "Big Nate I Can't Take It";
+  // let author = "Lincoln Peirce";
+  let user_id = 1;
+  console.log(isbn);
+  knex
+    .column('id')
+    .from('books')
+    .where('isbn', isbn)
+    .then((rows) => {
+      if (rows.length === 0) {
+        console.log("ISBN not found in books table.");
+        knex('books')
+          .returning('id')
+          .insert({
+            isbn: isbn,
+            // title: title,
+            // author: author
+          })
+          .then((rows) => {
+            knex('user_books')
+              .returning('id')
+              .insert({
+                user_id: user_id,
+                book_id: rows[0],
+                status: 'true'
+              })
+              .then((rows) => {
+                console.log("Record added.");
+              })
+          })
+      } else {
+        console.log("ISBN found in books table.");
+        knex('user_books')
+          .returning('id')
+          .insert({
+            user_id: user_id,
+            book_id: rows[0].id,
+            status: 'true'
+          })
+          .then((rows) => {
+            console.log("Record added.");
+          })
+      }
+    });
+  });
 
 //Listening to the appropriate PORT
 app.listen(PORT, () => {

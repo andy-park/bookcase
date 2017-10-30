@@ -27,10 +27,10 @@
             <hr class="my-2">
             <p>Add books to your library for your friends to loan! Enter your book's ISBN or use your mobile phone to scan the
                 ISBN barcode.</p>
-            <form method="post" action="/library">
+            <form>
                 <div class="form-group d-flex justify-content-center p-4">
-                    <input class="form-control col-sm-6 mr-sm-2" placeholder="Add ISBN">
-                    <button class="btn btn-outline-dark my-2 my-sm-0" id="add-book">Add</button>
+                    <input class="form-control col-sm-6 mr-sm-2 text-box" placeholder="Add ISBN">
+                    <button class="btn btn-outline-dark my-2 my-sm-0 add-book">Add</button>
                 </div>
             </form>
             <div class="panel-body">
@@ -64,6 +64,18 @@
 
 <script>
     $(function () {
+
+        $(".add-book").on('click', function (event) {
+            event.preventDefault();
+            let bookNum = $('.text-box').val();
+            
+            $.ajax({
+                type: 'post',
+                url: 'library/',
+                data: { bookNum: bookNum }
+            });
+        });
+
         $(".list-group-item").each(function () {
             const groupItem = this;
             $(this).on("click", ".delete-button", function () {

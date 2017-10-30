@@ -94,11 +94,23 @@
                         $.ajax({
                             type: 'post',
                             url: '/connections/add',
-                            data: { myId, friendId },
-                            success: function (result) {
+                            data: { myId, friendId }
+                            
+                        /*  success: function (result) {
+                                $.ajax({
+                                    type: 'get',
+                                    url: '/connections/add',
+                                    data: { myId: 1 },
+                                    success: function (result){
+                                        let friends = JSON.parse(result);
+                                        console.log(friends);
+                                    }
+                                }) 
                             },
                             failure: function(err) {
                             }
+
+                        */
                         });
                     });
                 }
