@@ -32,15 +32,18 @@
                     <button class="btn btn-outline-dark my-2 my-sm-0 fire-button create-list">Search</button>
                 </div>
             </form>
-            <div>
-                <table>
-                    <tr class="search-row">
-                        <td class="search-name"></td>
-                        <td class="search-email"></td>
-                        <td class="add-button"></td>
+
+            
+            <div class="row-lg">
+                <table class="center">
+                    <tr class="row search-row text-center justify-content-md-center align-items-center">
+                        <td class="search-name col-12"></td>
+                        <td class="search-email col-sm"></td>
+                        <td class="add-button col-sm"></td>
                     </tr>
                 </table>
             </div>
+
             <div class="panel-body">
                 <div class="row-lg">
                     <ul class="list-group">
@@ -83,7 +86,7 @@
                     let newResults = JSON.parse(results);
                     let name = $('.search-name').text(newResults[0].first_name + (' ') + (newResults[0].last_name));
                     let email = $('.search-email').text(newResults[0].email);
-                    let addFriend = $('.friend-add').add('<i class="fa fa-plus friend-add" data-my-id="<%= userId[0] %>" aria-hidden="true"></i>').attr('data-friend-id', newResults[0].id);
+                    let addFriend = $('.friend-add').add('<i class="fa fa-plus-square-o friend-add" data-my-id="<%= userId[0] %>" aria-hidden="true" p-2></i>').attr('data-friend-id', newResults[0].id);
 
                     $('.search-row').append(name, email, addFriend);
                     
@@ -91,7 +94,7 @@
                         var myId = 1;
                         var friendId = Number($(this).data('friend-id'));
                         console.log(myId, friendId);
-                        $('.search-friend').val('');
+                        $('.search-friend').reset();
                         $.ajax({
                             type: 'post',
                             url: '/connections/add',

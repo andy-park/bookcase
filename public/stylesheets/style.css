@@ -58,6 +58,11 @@ hr {
   color: red;
 }
 
+.search-row {
+  display: inline;
+  color: #253C31
+}
+
 pre {
   font-family: monospace, monospace;
   font-size: 1em
@@ -900,7 +905,7 @@ pre code {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -15px;
-  margin-left: -15px
+  margin-left: -15px;
 }
 
 @media (min-width:576px) {
