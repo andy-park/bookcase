@@ -315,7 +315,6 @@ app.get("/connections", (req, res) => {
   //This query retrieves a list of the user's connections from where the user can borrow books.
   let userId = 1;
   
-
   knex
     .raw(
       'SELECT friends.id ' +
@@ -335,13 +334,10 @@ app.get("/connections", (req, res) => {
       'WHERE users.id = ? ', [userId, userId]
     )
     .then((result) => {
-      //console.log(result);
       let connectionIds = [];
       result.rows.forEach((result, index) => {
         connectionIds[index] = result.id;
       })
-      //console.log(connectionIds);
-      
       knex
         .select()
         .from('users')
@@ -351,7 +347,6 @@ app.get("/connections", (req, res) => {
           let last = [];
           let email = [];
           let userId = [];
-          console.log(user);
           for (var i = 0; i < user.length; i++) {
             first[i] = user[i].first_name;
             last[i] = user[i].last_name;
@@ -364,7 +359,6 @@ app.get("/connections", (req, res) => {
           res.locals.userId = userId;
           res.render("connections")
         })
-        
     });
 });
 
@@ -450,7 +444,13 @@ app.post("/connections/add", (req, res) => {
     .insert({ user1_id: user1, user2_id: user2 })
     .then((rows) => {
       console.log("Record added.");
-  });
+      knex('users')
+        .where('users.id', user2)
+        .then((userData) => {
+          res.send(JSON.stringify(userData));
+        });
+
+    });
 });
 
 app.post("/connections/delete", (req, res) => {

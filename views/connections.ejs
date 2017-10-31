@@ -95,22 +95,22 @@
                         $.ajax({
                             type: 'post',
                             url: '/connections/add',
-                            data: { myId, friendId }
-                        /*  success: function (result) {
-                                $.ajax({
-                                    type: 'get',
-                                    url: '/connections/add',
-                                    data: { myId: 1 },
-                                    success: function (result){
-                                        let friends = JSON.parse(result);
-                                        console.log(friends);
-                                    }
-                                }) 
-                            },
-                            failure: function(err) {
-                            }
-
-                        */
+                            data: { myId, friendId },
+                            success: function(userData) {
+                                let friends = JSON.parse(userData);
+                                console.log(userData);
+                                $(".list-group").append('<li class="list-group-item flex-column justify-content-between"></li>');
+                                var list = $(".list-group-item").last();
+                                list.append($('<h6>TEST</h6>')); //.text(userData[0].first_name + " " + userData[0].last_name));
+                            
+                                list.append($('<small>TEST</small>')); //.text(userData[0].email));
+                                /*
+                                list.append($('<span class="action-buttons">'));
+                                var buttonList = $(".action-buttons").last();
+                                var buttonDelete = $('<i class="fa fa-minus-square-o p-2 delete-button" data-user-id="1" aria-hidden="true"></i>').attr("data-book-id", book.bookId);
+                                buttonList.append(buttonDelete);
+                                */
+                            }                       
                         });
                         $('.search-row').remove();
                     });
