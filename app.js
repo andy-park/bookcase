@@ -64,7 +64,6 @@ app.post("/books", (req, res) => {
       author[i] = books[i].authors;
       thumbnail[i] = books[i].picture;
       book_id[i] = books[i].isbn;
-      console.log(book_id[i]);
     };
 
     res.locals.title = title;
@@ -312,7 +311,7 @@ app.post("/books", (req, res) => {
               lenders[i] = {};
             }
           }
-          console.log(lenders);
+          
           res.locals.lenders = lenders;
           return res.render("index_show")
         })
@@ -610,12 +609,7 @@ app.post("/library", (req, res) => {
           })
       }
     });
-
-
-
-  })
-
-  
+  }) 
 });
 
 //Listening to the appropriate PORT
@@ -719,3 +713,8 @@ nodemailer.createTestAccount((error, account) =>  {
 })
 
 */
+
+app.post("/email", (req, res) => {
+  console.log(req.body);
+
+});

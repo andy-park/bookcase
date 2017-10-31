@@ -8,8 +8,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/font-awesome-4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
@@ -45,19 +44,18 @@
                                     <p class="card-text">
                                         By <%= author[i] %>
                                     </p>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <% var test = lenders[i].first_name %>
-                                            <%= test %>
+                                    <ul class="row justify-content-around">
+                                        <ul class="col-sm-4">
                                             <i class="fa fa-exchange" aria-hidden="true"></i>
+                                        <div class="email-request-for-book align-items-end" data-book-id="<%= book_id[i] %>" data-user-id="<%= lenders[i].id %>">
+                                            <% var test = lenders[i].first_name %>
+                                                <%= test %>
                                         </div>
-                                        <div class="col-sm">
-                                            <i class="fa fa-search" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="col-sm">
+                                    </ul>
+                                        <ul class="col-sm-2">
                                             <i class="fa fa-amazon" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
+                                        </ul>
+                                    </ul>
                                 </div>
                             </div>
                             <% } %>
@@ -70,3 +68,20 @@
 </body>
 
 </html>
+
+<script>    
+    $(function () {
+
+        $('.email-request-for-book').on('click', function (event){
+            const book = ($(this).data('book-id'));
+            const user = ($(this).data('user-id'));
+
+            $.ajax({
+                type: 'post',
+                url: '/email',
+                data: { book: book, 
+                        user: user }
+            });
+        });
+    });
+</script>
