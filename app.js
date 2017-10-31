@@ -641,7 +641,7 @@ function searchBooks(title, cb) {
         if (item.volumeInfo.imageLinks != undefined) {
           book.picture = item.volumeInfo.imageLinks.smallThumbnail;
         } else {
-          book.picture = "./public/assets/Image-not-found.gif";
+          book.picture = "/public/assets/image-not-found.gif";
         }
         books.push(book);
       })
