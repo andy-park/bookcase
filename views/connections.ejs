@@ -94,25 +94,43 @@
                         var myId = 1;
                         var friendId = Number($(this).data('friend-id'));
                         console.log(myId, friendId);
-                        $('.search-friend').reset();
+                        //$('.search-friend').reset();
                         $.ajax({
                             type: 'post',
                             url: '/connections/add',
                             data: { myId, friendId },
                             success: function(userData) {
                                 let friends = JSON.parse(userData);
-                                console.log(userData);
+                                console.log(friends);
                                 $(".list-group").append('<li class="list-group-item flex-column justify-content-between"></li>');
                                 var list = $(".list-group-item").last();
-                                list.append($('<h6>TEST</h6>')); //.text(userData[0].first_name + " " + userData[0].last_name));
-                            
-                                list.append($('<small>TEST</small>')); //.text(userData[0].email));
-                                /*
+                                list.append($('<h6></h6>').text(friends[0].first_name + " " + friends[0].last_name));
+                                list.append($('<small></small>').text(friends[0].email)); 
                                 list.append($('<span class="action-buttons">'));
                                 var buttonList = $(".action-buttons").last();
-                                var buttonDelete = $('<i class="fa fa-minus-square-o p-2 delete-button" data-user-id="1" aria-hidden="true"></i>').attr("data-book-id", book.bookId);
+                                var buttonDelete = $('<i class="fa fa-minus-square-o p-2 delete-button" aria-hidden="true"></i>').attr("data-user-id", friends[0].id);
                                 buttonList.append(buttonDelete);
-                                */
+
+                                buttonDelete.on("click", function () {
+                                const user = Number($(this).data('user-id'));
+                                
+                                // const email = ($(this).data('email-id'));
+                                
+                                $.ajax({
+                                    type: 'post',
+                                    url: '/connections/delete',
+                                    data: { user },
+                                    success: function (result) {
+                                    },
+                                    failure: function(err) {
+                                    }
+                                });
+                                closestListItem = $(this).closest('.list-group-item');
+                                closestListItem.remove();
+                            });
+
+
+
                             }                       
                         });
                         $('.search-row').remove();
