@@ -64,12 +64,13 @@ app.post("/books", (req, res) => {
       author[i] = books[i].authors;
       thumbnail[i] = books[i].picture;
       book_id[i] = books[i].isbn;
+      console.log(book_id[i]);
     };
 
     // This query takes a list of books and finds which connections have the books available to borrow
 
     let userId = 1;
-    let isbns = ["9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123"];
+    // let isbns = ["9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123"];
     let lenders = [];
 
     knex
@@ -101,7 +102,7 @@ app.post("/books", (req, res) => {
       .from('books')
       .innerJoin('user_books', 'books.id', 'user_books.book_id')
       .innerJoin('users', 'user_books.user_id', 'users.id')
-      .where('isbn', isbns[0])
+      .where('isbn', book_id[0])
       .andWhere('status', 'true')
       .then((rows) => {
         lenders[0] = [];
@@ -120,7 +121,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[1])
+        .where('isbn', book_id[1])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[1] = [];
@@ -139,7 +140,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[2])
+        .where('isbn', book_id[2])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[2] = [];
@@ -159,7 +160,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[3])
+        .where('isbn', book_id[3])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[3] = [];
@@ -179,7 +180,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[4])
+        .where('isbn', book_id[4])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[4] = [];
@@ -199,7 +200,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[5])
+        .where('isbn', book_id[5])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[5] = [];
@@ -219,7 +220,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[6])
+        .where('isbn', book_id[6])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[6] = [];
@@ -239,7 +240,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[7])
+        .where('isbn', book_id[7])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[7] = [];
@@ -259,7 +260,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[8])
+        .where('isbn', book_id[8])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[8] = [];
@@ -279,7 +280,7 @@ app.post("/books", (req, res) => {
         .from('books')
         .innerJoin('user_books', 'books.id', 'user_books.book_id')
         .innerJoin('users', 'user_books.user_id', 'users.id')
-        .where('isbn', isbns[9])
+        .where('isbn', book_id[9])
         .andWhere('status', 'true')
         .then((rows) => {
           lenders[9] = [];
