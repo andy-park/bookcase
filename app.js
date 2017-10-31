@@ -67,6 +67,11 @@ app.post("/books", (req, res) => {
       console.log(book_id[i]);
     };
 
+    res.locals.title = title;
+    res.locals.author = author;
+    res.locals.thumbnail = thumbnail;
+    res.locals.book_id = book_id;
+
     // This query takes a list of books and finds which connections have the books available to borrow
 
     let userId = 1;
@@ -105,11 +110,11 @@ app.post("/books", (req, res) => {
       .where('isbn', book_id[0])
       .andWhere('status', 'true')
       .then((rows) => {
-        lenders[0] = [];
+        lenders[0] = {};
         connections.forEach((connection) => {
           rows.forEach((row) => {
             if(connection == row.id) {
-              lenders[0].push(row);
+              lenders[0] = row;
             } 
           })
         })
@@ -124,11 +129,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[1])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[1] = [];
+          lenders[1] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[1].push(row);
+                lenders[1] = row;
               } 
             })
           })
@@ -143,11 +148,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[2])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[2] = [];
+          lenders[2] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[2].push(row);
+                lenders[2] = row;
               } 
             })
           })
@@ -163,11 +168,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[3])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[3] = [];
+          lenders[3] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[3].push(row);
+                lenders[3] = row;
               } 
             })
           })
@@ -183,11 +188,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[4])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[4] = [];
+          lenders[4] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[4].push(row);
+                lenders[4] = row;
               } 
             })
           })
@@ -203,11 +208,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[5])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[5] = [];
+          lenders[5] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[5].push(row);
+                lenders[5] = row;
               } 
             })
           })
@@ -223,11 +228,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[6])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[6] = [];
+          lenders[6] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[6].push(row);
+                lenders[6] = row;
               } 
             })
           })
@@ -243,11 +248,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[7])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[7] = [];
+          lenders[7] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[7].push(row);
+                lenders[7] = row;
               } 
             })
           })
@@ -263,11 +268,11 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[8])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[8] = [];
+          lenders[8] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[8].push(row);
+                lenders[8] = row;
               } 
             })
           })
@@ -283,32 +288,40 @@ app.post("/books", (req, res) => {
         .where('isbn', book_id[9])
         .andWhere('status', 'true')
         .then((rows) => {
-          lenders[9] = [];
+          lenders[9] = {};
           connections.forEach((connection) => {
             rows.forEach((row) => {
               if(connection == row.id) {
-                lenders[9].push(row);
+                lenders[9] = row;
               } 
             })
           })
           console.log(lenders);
+/*         lenders[0] = "TEST";
+          lenders[1] = "TEST";
+          lenders[2] = "TEST";
+          lenders[3] = "TEST";
+          lenders[4] = "TEST";
+          lenders[5] = "TEST";
+          lenders[6] = "TEST";
+          lenders[7] = "TEST";
+          lenders[8] = "TEST";
+          lenders[9] = "TEST"; */
+          for(var i = 0; i < 10; i++) {
+            if(lenders[i] == undefined) {
+              lenders[i] = {};
+            }
+          }
+          console.log(lenders);
+          res.locals.lenders = lenders;
+          return res.render("index_show")
         })
       })
 
       })
     });
-
     //end of query
-
-
-
-
-    res.locals.title = title;
-    res.locals.author = author;
-    res.locals.thumbnail = thumbnail;
-    res.locals.book_id = book_id;
-
-    return res.render("index_show")
+    
   })
 });
 
