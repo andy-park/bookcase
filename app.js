@@ -284,13 +284,31 @@ app.post("/library/delete", (req, res) => {
 
 app.post("/library", (req, res) => {
 //This query allows the user to add a book to their list.
-  let isbn = req.body.bookNum; // This item is in the books table.
-  // const isbn2 = "9781449429379"; // This item will be added to the books table.
-  // let title = "Big Nate I Can't Take It";
-  // let author = "Lincoln Peirce";
+  let isbn = req.body.bookNum; 
   let user_id = 1;
-  console.log(isbn);
-  knex
+  let bookData = {};
+
+  searchBooks(isbn, (books) => {
+    books.forEach((book) => {
+      if(book.isbn == isbn) {
+        console.log("FOUND BOOK");
+        console.log(book)
+        bookData.isbn = book.isbn;
+        if(book.title) {
+          bookData.title = book.title;
+        } else {
+          bookData.title = "Unknown";
+        }
+        if(book.authors) {
+          bookData.author = book.authors[0];
+        } else {
+          bookData.author = "Unknown";
+        }
+      }
+    })
+    //console.log(bookData);
+    //res.send(JSON.stringify(bookData));
+    knex
     .column('id')
     .from('books')
     .where('isbn', isbn)
@@ -300,37 +318,47 @@ app.post("/library", (req, res) => {
         knex('books')
           .returning('id')
           .insert({
-            isbn: isbn,
-            // title: title,
-            // author: author
+            isbn: bookData.isbn,
+            title: bookData.title,
+            author: bookData.author
           })
           .then((rows) => {
             knex('user_books')
-              .returning('id')
+              .returning('book_id')
               .insert({
                 user_id: user_id,
                 book_id: rows[0],
                 status: 'true'
               })
               .then((rows) => {
+                bookData.bookId = rows[0];
                 console.log("Record added.");
+                res.send(JSON.stringify(bookData));
               })
           })
       } else {
         console.log("ISBN found in books table.");
         knex('user_books')
-          .returning('id')
+          .returning('book_id')
           .insert({
             user_id: user_id,
             book_id: rows[0].id,
             status: 'true'
           })
           .then((rows) => {
+            bookData.bookId = rows[0];
             console.log("Record added.");
+            res.send(JSON.stringify(bookData));
           })
       }
     });
-  });
+
+
+
+  })
+
+  
+});
 
 //Listening to the appropriate PORT
 app.listen(PORT, () => {

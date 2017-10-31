@@ -72,7 +72,19 @@
             $.ajax({
                 type: 'post',
                 url: 'library/',
-                data: { bookNum: bookNum }
+                data: { bookNum: bookNum },
+                success: function(result) {
+                    console.log(JSON.parse(result));
+                    var book = JSON.parse(result);
+                    $(".list-group").append('<li class="list-group-item flex-column justify-content-between"></li>');
+                    var list = $(".list-group-item").last()
+                    list.append($('<h6></h6>').text(book.title));
+                    list.append($('<small></small').text('By ' + book.author));
+                    list.append($('<span class="action-buttons">'));
+                    var buttonList = $(".action-buttons").last();
+                    buttonList.append('<i class="fa fa-book p-2 status-button" aria-hidden="true" data-status="true"></i>').attr("data-user-book", book.bookId);
+                    buttonList.append('<i class="fa fa-minus-square-o p-2 delete-button" data-user-id="1" aria-hidden="true"></i>').attr("data-book-id", book.bookId);
+                }
             });
         });
 
