@@ -3565,7 +3565,8 @@ tbody.collapse.show {
   content: "";
   border-top: .3em solid;
   border-right: .3em solid transparent;
-  border-left: .3em solid transparent
+  border-left: .3em solid transparent;
+  right: 0px
 }
 
 .dropdown-toggle:focus {
@@ -3580,10 +3581,10 @@ tbody.collapse.show {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   z-index: 1000;
   display: none;
-  float: left;
+  float: right;
   min-width: 10rem;
   padding: .5rem 0;
   margin: .125rem 0 0;
