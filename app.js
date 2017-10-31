@@ -314,6 +314,7 @@ app.post("/books", (req, res) => {
 app.get("/connections", (req, res) => {
   //This query retrieves a list of the user's connections from where the user can borrow books.
   let userId = 1;
+  
 
   knex
     .raw(
@@ -334,30 +335,36 @@ app.get("/connections", (req, res) => {
       'WHERE users.id = ? ', [userId, userId]
     )
     .then((result) => {
-      result.rows.forEach((row) => {
-        knex
-          .select()
-          .from('users')
-          .where('users.id', row.id)
-          .then((user) => {
-            let first = [];
-            let last = [];
-            let email = [];
-            let userId = [];
-
-            for (var i = 0; i < user.length; i++) {
-              first[i] = user[i].first_name;
-              last[i] = user[i].last_name;
-              email[i] = user[i].email;
-              userId[i] = user[i].id;
-            };
-            res.locals.first = first;
-            res.locals.last = last;
-            res.locals.email = email;
-            res.locals.userId = userId;
-            res.render("connections")
-          })
-      });
+      //console.log(result);
+      let connectionIds = [];
+      result.rows.forEach((result, index) => {
+        connectionIds[index] = result.id;
+      })
+      //console.log(connectionIds);
+      
+      knex
+        .select()
+        .from('users')
+        .whereIn('users.id', connectionIds)
+        .then((user) => {
+          let first = [];
+          let last = [];
+          let email = [];
+          let userId = [];
+          console.log(user);
+          for (var i = 0; i < user.length; i++) {
+            first[i] = user[i].first_name;
+            last[i] = user[i].last_name;
+            email[i] = user[i].email;
+            userId[i] = user[i].id;
+          };
+          res.locals.first = first;
+          res.locals.last = last;
+          res.locals.email = email;
+          res.locals.userId = userId;
+          res.render("connections")
+        })
+        
     });
 });
 
