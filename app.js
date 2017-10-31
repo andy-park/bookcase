@@ -65,6 +65,243 @@ app.post("/books", (req, res) => {
       thumbnail[i] = books[i].picture;
       book_id[i] = books[i].isbn;
     };
+
+    // This query takes a list of books and finds which connections have the books available to borrow
+
+    let userId = 1;
+    let isbns = ["9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123"];
+    let lenders = [];
+
+    knex
+    .raw(
+      'SELECT friends.id ' +
+      'FROM ' +
+      'users JOIN connections ' +
+      'ON users.id = connections.user1_id ' +
+      'JOIN users AS friends ' +
+      'ON connections.user2_id = friends.id ' +
+      'WHERE users.id = ? ' +
+      'UNION ' +
+      'SELECT friends.id ' +
+      'FROM ' +
+      'users AS friends JOIN connections ' +
+      'ON friends.id = connections.user1_id ' +
+      'JOIN users ' +
+      'ON connections.user2_id = users.id ' +
+      'WHERE users.id = ? ',
+      [ userId, userId ]
+    )
+    .then((result) => {
+      connections = [];
+      result.rows.forEach((row, index) => {
+        connections[index] = row.id;
+      });
+      knex
+      .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+      .from('books')
+      .innerJoin('user_books', 'books.id', 'user_books.book_id')
+      .innerJoin('users', 'user_books.user_id', 'users.id')
+      .where('isbn', isbns[0])
+      .andWhere('status', 'true')
+      .then((rows) => {
+        lenders[0] = [];
+        connections.forEach((connection) => {
+          rows.forEach((row) => {
+            if(connection == row.id) {
+              lenders[0].push(row);
+            } 
+          })
+        })
+        //console.log(lenders[0]);
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[1])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[1] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[1].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[1]);
+        })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[2])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[2] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[2].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[2]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[3])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[3] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[3].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[3]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[4])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[4] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[4].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[4]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[5])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[5] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[5].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[5]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[6])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[6] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[6].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[6]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[7])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[7] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[7].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[7]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[8])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[8] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[8].push(row);
+              } 
+            })
+          })
+          //console.log(lenders[8]);
+        })
+      })
+      .then(() => {
+        knex
+        .column('users.id', 'users.email', 'users.first_name', 'users.last_name')
+        .from('books')
+        .innerJoin('user_books', 'books.id', 'user_books.book_id')
+        .innerJoin('users', 'user_books.user_id', 'users.id')
+        .where('isbn', isbns[9])
+        .andWhere('status', 'true')
+        .then((rows) => {
+          lenders[9] = [];
+          connections.forEach((connection) => {
+            rows.forEach((row) => {
+              if(connection == row.id) {
+                lenders[9].push(row);
+              } 
+            })
+          })
+          console.log(lenders);
+        })
+      })
+
+      })
+    });
+
+    //end of query
+
+
+
+
     res.locals.title = title;
     res.locals.author = author;
     res.locals.thumbnail = thumbnail;
