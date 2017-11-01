@@ -514,6 +514,7 @@ app.post("/library/status", (req, res) => {
     })
     .then((rows) => {
       console.log("Record updated");
+      res.send("OK");
     });
 });
 
