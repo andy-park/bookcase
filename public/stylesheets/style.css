@@ -50,13 +50,18 @@ hr {
   overflow: visible
 }
 
-.status-button {
+.status-button[data-status=true] {
   color: green;
+}
+
+.status-button[data-status=false] {
+  color: red;
 }
 
 .status-button.red {
   color: red;
 }
+
 
 .search-row {
   display: inline;

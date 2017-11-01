@@ -150,10 +150,11 @@
         });
         
         $(".status-button").on('click', function () {
+            console.log("STATUS BUTTON CLICKED");
             let showStatus = ($(this).data('status'));
             let newStatus = !showStatus;
+            console.log(newStatus);
             let userBook = ($(this).data('user-book'));
-            
             $.ajax({
                 type: 'post',
                 url: '/library/status',

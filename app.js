@@ -503,11 +503,12 @@ app.get("/library", (req, res) => {
 
 app.post("/library/status", (req, res) => {
 //This query allows the user to update the status of a book on their list.
-  const userBookId = req.body.userBookId;
+  const bookId = req.body.userBookId;
   const status = req.body.status;
- 
+  console.log("STATUS: " + status);
+  console.log("USER_BOOK: " + bookId);
   knex('user_books')
-    .where('user_books.id', userBookId)
+    .where('user_books.book_id', bookId).andWhere('user_books.user_id', 1)
     .update({
       status: status
     })
