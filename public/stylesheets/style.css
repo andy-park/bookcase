@@ -62,7 +62,7 @@ hr {
   color: red;
 }
 
-.status-button.red {
+.status-button.red[data-status=false] {
   color: red;
 }
 

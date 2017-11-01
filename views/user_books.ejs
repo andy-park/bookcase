@@ -117,10 +117,12 @@
                             }
                         });
 
-                        ($(this).toggleClass("red"));
+                        //($(this).toggleClass("red"));
                         if(showStatus == true) {
+                            $(this).css("color", "red");
                             ($(this).data('status', false));
                         } else {
+                            $(this).css("color", "green");
                             ($(this).data('status', true));
                         }
                     })
@@ -163,13 +165,16 @@
                     userBookId: userBook
                 }
             });
-
-            ($(this).toggleClass("red"));
+            
+            //($(this).toggleClass("red"));
             if(showStatus == true) {
+                $(this).css("color", "red");
                 ($(this).data('status', false));
             } else {
+                $(this).css("color", "green");
                 ($(this).data('status', true));
             }
+            
         })
     });
 </script>

@@ -66,7 +66,7 @@ app.post("/books", (req, res) => {
       book_id[i] = books[i].isbn;
     };
 
-    // console.log(book_id);
+    console.log(book_id);
 
     res.locals.title = title;
     res.locals.author = author;
