@@ -21,41 +21,58 @@
 <body>
   <!-- Navigation -->
   <% include ./partials/_navbar %>
-  <!-- Banner -->
-  <div class="container p-4">
-  <% include ./partials/_banner %>
-  </div>
-  <!-- Search Bar -->
-  <% include ./partials/_searchbar %>
-
-    <!-- Page Content -->
-    <div class="container">
-      <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
+    <!-- Banner -->
+    <div class="container p-4">
+      <% include ./partials/_banner %>
     </div>
+    <!-- Search Bar -->
+    <% include ./partials/_searchbar %>
 
-    <div class="container">
-      <div class="card-deck">
-        <div class="row p-3">
-          <% for (var i = 0; i < 12; i++) { %>
-            <div class="col-md-4 text-center p-4">
-              <img class="card-img-top mx-auto d-block"  height="190px" src="<%= thumbnails[i] %>">
-              <div class="card-block">
-                <h6 class="card-title" style="color:#253C31">
-                  <%= titles[i] %>
-                </h6>
-                <p class="card-text" style="height: 51px">
-                  By
-                  <%= authors[i] %>
-                </p>
+      <!-- Page Content -->
+      <div class="container">
+        <h4 class="p-2" style="color:#253C31">Bestsellers</h4>
+      </div>
+
+      <div class="container">
+        <div class="card-deck">
+          <div class="row p-3">
+            <% for (var i = 0; i < 12; i++) { %>
+              <div class="col-md-4 text-center p-4">
+                <img class="card-img-top mx-auto d-block" height="190px" src="<%= thumbnails[i] %>">
+                <div class="card-block">
+                  <h6 class="card-title" style="color:#253C31">
+                    <%= titles[i] %>
+                  </h6>
+                  <p class="card-text" style="height: 51px">
+                    By
+                    <%= authors[i] %>
+                  </p>
+                  <span>
+                    <div class="row">
+                      <div class="col">
+                        <i class="fa fa-exchange" aria-hidden="true"></i>
+                      </div>
+                      <div class="col">
+                        <a class="link" href="https://vpl.bibliocommons.com/search?q=<%= titles[i] %>&t=smart&search_category=keyword" target="_blank">
+                          <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                      <div class="col">
+                        <a class="link" href="https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=<%= titles[i] %>" target="_blank">
+                          <i class="fa fa-amazon" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </span>
+                </div>
               </div>
-            </div>
-            <% } %>
+              <% } %>
+          </div>
         </div>
       </div>
-    </div>
 
-  <!-- Footer -->
-  <% include ./partials/_footer %>
+      <!-- Footer -->
+      <% include ./partials/_footer %>
 </body>
 
 </html>

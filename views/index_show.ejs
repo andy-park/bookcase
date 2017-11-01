@@ -47,12 +47,28 @@
                                     <%= author[i] %>
                                 </p>
                                 <span>
-                                    <i class="fa fa-exchange" aria-hidden="true"></i>
-                                    <div class="email-request-for-book align-items-end" data-book-id="<%= book_id[i] %>" data-user-id="<%= lenders[i].id %>">
-                                        <% var test = lenders[i].first_name %>
-                                        <% var test2 = lenders[i].last_name %>
-                                            <%= test %> <%= test2 %>
+                                    <div class="row">
+                                        <div class="col">
+                                            <i class="fa fa-exchange" aria-hidden="true"></i>
+                                            <div class="email-request-for-book align-items-end" data-book-id="<%= book_id[i] %>" data-user-id="<%= lenders[i].id %>">
+                                                <% var test = lenders[i].first_name %>
+                                                    <% var test2 = lenders[i].last_name %>
+                                                        <%= test %>
+                                                            <%= test2 %>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <a class="link" href="https://vpl.bibliocommons.com/search?q=<%= titles[i] %>&t=smart&search_category=keyword" target="_blank">
+                                                <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <a class="link" href="https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=<%= titles[i] %>" target="_blank">
+                                                <i class="fa fa-amazon" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                     </div>
+
                                 </span>
                             </div>
                         </div>
@@ -75,14 +91,14 @@
             const user = ($(this).data('user-id'));
 
             $.ajax({
-                    type: 'post',
-                    url: '/email',
-                    data: {
-                        book: book,
-                        user: user
-                    }
-                });
-                
+                type: 'post',
+                url: '/email',
+                data: {
+                    book: book,
+                    user: user
+                }
+            });
+
             $.confirm({
                 title: 'Book Loan',
                 content: 'Send email request?',
