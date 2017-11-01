@@ -66,6 +66,8 @@ app.post("/books", (req, res) => {
       book_id[i] = books[i].isbn;
     };
 
+    console.log(book_id);
+
     res.locals.title = title;
     res.locals.author = author;
     res.locals.thumbnail = thumbnail;
@@ -74,7 +76,6 @@ app.post("/books", (req, res) => {
     // This query takes a list of books and finds which connections have the books available to borrow
 
     let userId = 1;
-    // let isbns = ["9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123", "9780545057042", "1234567890123"];
     let lenders = [];
 
     knex
@@ -553,8 +554,6 @@ app.post("/library", (req, res) => {
         }
       }
     })
-    //console.log(bookData);
-    //res.send(JSON.stringify(bookData));
     knex
     .column('id')
     .from('books')
