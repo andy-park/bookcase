@@ -295,17 +295,7 @@ app.post("/books", (req, res) => {
               } 
             })
           })
-          console.log(lenders);
-/*         lenders[0] = "TEST";
-          lenders[1] = "TEST";
-          lenders[2] = "TEST";
-          lenders[3] = "TEST";
-          lenders[4] = "TEST";
-          lenders[5] = "TEST";
-          lenders[6] = "TEST";
-          lenders[7] = "TEST";
-          lenders[8] = "TEST";
-          lenders[9] = "TEST"; */
+          //console.log(lenders);
           for(var i = 0; i < 10; i++) {
             if(lenders[i] == undefined) {
               lenders[i] = {};
@@ -683,38 +673,55 @@ function searchBookForSale(isbn, cb) {
   });
 };
 
-/*
-
 const nodemailer = require("nodemailer");
-
-nodemailer.createTestAccount((error, account) =>  {
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    secure: false,
-    auth: {
-      user: account.user,
-      pass: account.pass
-    }
-  });
-  let mailOptions = {
-    from: "homer.simpson@simpsons.com",
-    to: "wilma.flintstone@flinstones.com",
-    subject: "Bookcase Connection Request",
-    text: "Please add me to to your list of borrowers."
-  };
-  transporter.sendMail(mailOptions, (error, info) => {
-    if(error) {
-      return console.log(error);
-    }
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  })
-})
-
-*/
 
 app.post("/email", (req, res) => {
   console.log(req.body);
+  knex
+    .select()
+    .from('users')
+    .where('users.id', req.body.user)
+    .then((result) => {
+      //console.log(result);
+      let firstName = result[0].first_name;
+      let lastName = result[0].last_name;
+      let email = result[0].email;
+      
+      knex
+        .select()
+        .from('books')
+        .where('books.isbn', req.body.book)
+        .then((result) => {
+          let bookName = result[0].title;
+          nodemailer.createTestAccount((error, account) =>  {
+            let transporter = nodemailer.createTransport({
+              host: "smtp.ethereal.email",
+              port: 587,
+              secure: false,
+              auth: {
+                user: account.user,
+                pass: account.pass
+              }
+            });
+            let mailOptions = {
+              from: "homer.simpson@simpsons.com",
+              to: email,
+              subject: "Book Request",
+              text: "Hi " + firstName + ", \n\nMay I borrow your copy of " + bookName + "?" + "\n\n Thanks, \n\nHomer"
+            };
+            transporter.sendMail(mailOptions, (error, info) => {
+              if(error) {
+                return console.log(error);
+              }
+              console.log("Message sent: %s", info.messageId);
+              console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            })
+          })
+          
+        })
+      
+  
+    });
 
+  
 });
