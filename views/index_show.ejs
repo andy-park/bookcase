@@ -50,9 +50,9 @@
                                     <i class="fa fa-exchange" aria-hidden="true"></i>
                                     <div class="email-request-for-book align-items-end" data-book-id="<%= book_id[i] %>" data-user-id="<%= lenders[i].id %>">
                                         <% var test = lenders[i].first_name %>
-                                            <%= test %>
+                                        <% var test2 = lenders[i].last_name %>
+                                            <%= test %> <%= test2 %>
                                     </div>
-                                    <i class="fa fa-amazon" aria-hidden="true"></i>
                                 </span>
                             </div>
                         </div>
@@ -74,6 +74,15 @@
             const book = ($(this).data('book-id'));
             const user = ($(this).data('user-id'));
 
+            $.ajax({
+                    type: 'post',
+                    url: '/email',
+                    data: {
+                        book: book,
+                        user: user
+                    }
+                });
+                
             $.confirm({
                 title: 'Book Loan',
                 content: 'Send email request?',
@@ -81,16 +90,16 @@
                     Confirm: {
                         btnClass: 'btn-secondary',
                         animationBounce: 1.5,
-                        content: function () {
-                            return $.ajax({
-                                type: 'post',
-                                url: '/email',
-                                data: {
-                                    book: book,
-                                    user: user
-                                }
-                            });
-                        },
+                        // content: function (book, user) {
+                        //         $.ajax({
+                        //         method: post,
+                        //         url: '/email',
+                        //         data: {
+                        //             book: book,
+                        //             user: user
+                        //         }
+                        //     })
+                        // },
                         action: function () {
                             $.alert('Your request has been sent!');
                         }
