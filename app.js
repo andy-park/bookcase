@@ -66,7 +66,7 @@ app.post("/books", (req, res) => {
       book_id[i] = books[i].isbn;
     };
 
-    console.log(book_id);
+    // console.log(book_id);
 
     res.locals.title = title;
     res.locals.author = author;
@@ -675,7 +675,7 @@ function searchBookForSale(isbn, cb) {
 const nodemailer = require("nodemailer");
 
 app.post("/email", (req, res) => {
-  console.log(req.body);
+  console.log(req.body.user);
   knex
     .select()
     .from('users')
