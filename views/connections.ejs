@@ -26,6 +26,7 @@
             <h6 class="lead">Manage Your Connections</h6>
             <hr class="my-2">
             <p>Search for friends by their first and last names or their email address.</p>
+
             <form>
                 <div class="form-group d-flex justify-content-center p-4">
                     <input class="form-control col-sm-6 mr-sm-2 search-friend" type="text" placeholder="Find friends">
@@ -33,33 +34,39 @@
                 </div>
             </form>
 
-            
-            <div class="row-lg">
-                <table class="center">
-                    <tr class="row search-row text-center justify-content-md-center align-items-center">
-                        <td class="search-name col-12"></td>
-                        <td class="search-email col-sm"></td>
-                        <td class="add-button col-sm"></td>
-                    </tr>
-                </table>
+            <div class="panel-body search-field">
+                <h6 class="lead">Search Results</h6>
+                <hr class="my-2">
+                <div class="row-lg">
+                    <ul class="list-group">
+                        <li class="list-group-item flex-column justify-content-between">
+                            <h6 class="search-name"></h6>
+                            <small class="search-email"></small>
+                            <span class="friend-add"></span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="panel-body">
+                <h6 class="lead" style="margin-top: 3em">Friends</h6>
+                <hr class="my-2">
                 <div class="row-lg">
                     <ul class="list-group">
                         <% for (var i = 0; i < first.length; i++) { %>
-                        <li class="list-group-item flex-column justify-content-between">
-                            <h6>
-                                <%= first[i] %> <%= last[i] %>
-                            </h6>
-                            <small>
-                                <%= email[i] %>
-                            </small>
-                            <span class="action-buttons">
-                                <i class="fa fa-minus-square-o p-2 delete-friend" aria-hidden="true" data-user-id="<%= userId[i] %>"></i>
-                            </span>
-                        </li>
-                        <% } %>
+                            <li class="list-group-item flex-column justify-content-between">
+                                <h6>
+                                    <%= first[i] %>
+                                        <%= last[i] %>
+                                </h6>
+                                <small>
+                                    <%= email[i] %>
+                                </small>
+                                <span class="action-buttons">
+                                    <i class="fa fa-minus-square-o p-2 delete-friend" aria-hidden="true" data-user-id="<%= userId[i] %>"></i>
+                                </span>
+                            </li>
+                            <% } %>
                     </ul>
                 </div>
             </div>
@@ -74,64 +81,87 @@
 <script>
     $(function () {
 
+        $('.search-field').hide();
+
         $('.fire-button').on('click', function (event) {
+            $('.search-field').show();
             event.preventDefault();
             let input = $('.search-friend').val();
-            
+
             $.ajax({
                 type: 'get',
                 url: '/connections/search',
-                data: { input: input },
-                success: function(results) {
+                data: {
+                    input: input
+                },
+                success: function (results) {
                     let newResults = JSON.parse(results);
-                    let name = $('.search-name').text(newResults[0].first_name + (' ') + (newResults[0].last_name));
+                    let name = $('.search-name').text(newResults[0].first_name + (' ') + (
+                        newResults[0].last_name));
                     let email = $('.search-email').text(newResults[0].email);
-                    let addFriend = $('.friend-add').add('<i class="fa fa-plus-square-o friend-add" data-my-id="<%= userId[0] %>" aria-hidden="true" p-2></i>').attr('data-friend-id', newResults[0].id);
+                    let addFriend = $('.friend-add').append(
+                        '<i class="fa fa-plus-square-o friend-add" data-my-id="<%= userId[0] %>" aria-hidden="true" p-2></i>'
+                    ).attr('data-friend-id', newResults[0].id);
 
                     $('.search-row').append(name, email, addFriend);
-                    
+
                     $('.friend-add').on('click', function () {
                         var myId = 1;
                         var friendId = Number($(this).data('friend-id'));
-                        console.log(myId, friendId);
+                        
                         //$('.search-friend').reset();
                         $.ajax({
                             type: 'post',
                             url: '/connections/add',
-                            data: { myId, friendId },
-                            success: function(userData) {
+                            data: {
+                                myId,
+                                friendId
+                            },
+                            success: function (userData) {
                                 let friends = JSON.parse(userData);
                                 console.log(friends);
-                                $(".list-group").append('<li class="list-group-item flex-column justify-content-between"></li>');
+                                $('.search-friend').empty();
+                                $('.search-field').empty();
+                                $(".list-group").append(
+                                    '<li class="list-group-item flex-column justify-content-between"></li>'
+                                );
                                 var list = $(".list-group-item").last();
-                                list.append($('<h6></h6>').text(friends[0].first_name + " " + friends[0].last_name));
-                                list.append($('<small></small>').text(friends[0].email)); 
-                                list.append($('<span class="action-buttons">'));
+                                list.append($('<h6></h6>').text(friends[
+                                        0].first_name + " " +
+                                    friends[0].last_name));
+                                list.append($('<small></small>').text(
+                                    friends[0].email));
+                                list.append($(
+                                    '<span class="action-buttons">'
+                                ));
                                 var buttonList = $(".action-buttons").last();
-                                var buttonDelete = $('<i class="fa fa-minus-square-o p-2 delete-button" aria-hidden="true"></i>').attr("data-user-id", friends[0].id);
+                                var buttonDelete = $(
+                                    '<i class="fa fa-minus-square-o p-2 delete-button" aria-hidden="true"></i>'
+                                ).attr("data-user-id", friends[0].id);
                                 buttonList.append(buttonDelete);
 
                                 buttonDelete.on("click", function () {
-                                const user = Number($(this).data('user-id'));
-                                
-                                // const email = ($(this).data('email-id'));
-                                
-                                $.ajax({
-                                    type: 'post',
-                                    url: '/connections/delete',
-                                    data: { user },
-                                    success: function (result) {
-                                    },
-                                    failure: function(err) {
-                                    }
+                                    const user = Number($(this)
+                                        .data('user-id'));
+
+                                    // const email = ($(this).data('email-id'));
+
+                                    $.ajax({
+                                        type: 'post',
+                                        url: '/connections/delete',
+                                        data: {
+                                            user
+                                        },
+                                        success: function (
+                                            result) {},
+                                        failure: function (
+                                            err) {}
+                                    });
+                                    closestListItem = $(this).closest(
+                                        '.list-group-item');
+                                    closestListItem.remove();
                                 });
-                                closestListItem = $(this).closest('.list-group-item');
-                                closestListItem.remove();
-                            });
-
-
-
-                            }                       
+                            }
                         });
                         $('.search-row').remove();
                     });
@@ -143,17 +173,17 @@
             const groupItem = this;
             $(this).on("click", ".delete-friend", function () {
                 const user = Number($(this).data('user-id'));
-                
+
                 // const email = ($(this).data('email-id'));
-                
+
                 $.ajax({
                     type: 'post',
                     url: '/connections/delete',
-                    data: { user },
-                    success: function (result) {
+                    data: {
+                        user
                     },
-                    failure: function(err) {
-                    }
+                    success: function (result) {},
+                    failure: function (err) {}
                 });
                 groupItem.remove()
             });
