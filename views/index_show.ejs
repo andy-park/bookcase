@@ -14,6 +14,8 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
 </head>
 
@@ -22,65 +24,81 @@
     <% include ./partials/_navbar %>
 
         <!-- Search Bar -->
-        <div class="p-4"
-        <% include ./partials/_searchbar %>
+        <div class="p-4" <% include ./partials/_searchbar %>
         </div>
 
-            <!-- Page Content -->
-            <div class="container">
-                <h4 class="p-2" style="color:#253C31">Search Results:</h4>
-            </div>
+        <!-- Page Content -->
+        <div class="container">
+            <h4 class="p-2" style="color:#253C31">Search Results:</h4>
+        </div>
 
-            <div class="container">
-                <div class="card-deck">
-                    <div class="row p-3">
-                        <% for (var i = 0; i < title.length; i++) { %>
-                            <div class="col-md-4 text-center p-2">
-                                <img class="card-img-top mx-auto d-block" height="190px" src="<%= thumbnail[i] %>">
-                                <div class="card-block">
-                                    <h6 class="card-title">
-                                        <%= title[i] %>
-                                    </h6>
-                                    <p class="card-text">
-                                        By <%= author[i] %>
-                                    </p>
-                                    <ul class="row justify-content-around">
-                                        <ul class="col-sm-4">
-                                            <i class="fa fa-exchange" aria-hidden="true"></i>
-                                        <div class="email-request-for-book align-items-end" data-book-id="<%= book_id[i] %>" data-user-id="<%= lenders[i].id %>">
-                                            <% var test = lenders[i].first_name %>
-                                                <%= test %>
-                                        </div>
-                                    </ul>
-                                        <ul class="col-sm-2">
-                                            <i class="fa fa-amazon" aria-hidden="true"></i>
-                                        </ul>
-                                    </ul>
-                                </div>
+        <div class="container">
+            <div class="card-deck">
+                <div class="row p-3">
+                    <% for (var i = 0; i < title.length; i++) { %>
+                        <div class="col-md-4 text-center p-2">
+                            <img class="card-img-top mx-auto d-block" height="190px" src="<%= thumbnail[i] %>">
+                            <div class="card-block">
+                                <h6 class="card-title">
+                                    <%= title[i] %>
+                                </h6>
+                                <p class="card-text">
+                                    By
+                                    <%= author[i] %>
+                                </p>
+                                <span>
+                                    <i class="fa fa-exchange" aria-hidden="true"></i>
+                                    <div class="email-request-for-book align-items-end" data-book-id="<%= book_id[i] %>" data-user-id="<%= lenders[i].id %>">
+                                        <% var test = lenders[i].first_name %>
+                                            <%= test %>
+                                    </div>
+                                    <i class="fa fa-amazon" aria-hidden="true"></i>
+                                </span>
                             </div>
-                            <% } %>
-                    </div>
+                        </div>
+                        <% } %>
                 </div>
             </div>
-            
-    <!-- Footer -->
-    <% include ./partials/_footer %>
+        </div>
+
+        <!-- Footer -->
+        <% include ./partials/_footer %>
 </body>
 
 </html>
 
-<script>    
+<script>
     $(function () {
 
-        $('.email-request-for-book').on('click', function (event){
+        $('.email-request-for-book').on('click', function (event) {
             const book = ($(this).data('book-id'));
             const user = ($(this).data('user-id'));
 
-            $.ajax({
-                type: 'post',
-                url: '/email',
-                data: { book: book, 
-                        user: user }
+            $.confirm({
+                title: 'Book Loan',
+                content: 'Send email request?',
+                buttons: {
+                    Confirm: {
+                        btnClass: 'btn-secondary',
+                        animationBounce: 1.5,
+                        content: function () {
+                            return $.ajax({
+                                type: 'post',
+                                url: '/email',
+                                data: {
+                                    book: book,
+                                    user: user
+                                }
+                            });
+                        },
+                        action: function () {
+                            $.alert('Your request has been sent!');
+                        }
+                    },
+                    Cancel: {
+                        autoClose: 'Cancel|1000'
+                    }
+                }
             });
         });
     });
