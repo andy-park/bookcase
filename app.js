@@ -383,8 +383,7 @@ app.get("/connections/search", (req, res) => {
     )
     .then((result) => {
       console.log(result.rows[0].first_name + " " + result.rows[0].last_name);
-      
-      res.send(JSON.stringify(result.rows));
+      res.send(JSON.stringify(result.rows[0]));
     });
 });
 
@@ -442,19 +441,20 @@ app.post("/connections/add", (req, res) => {
   //This query adds a connection.
   let user1 = req.body.myId;
   let user2 = req.body.friendId;
+  console.log(user1);
+  console.log(user2);
 
-  knex('connections')
-    .returning('id')
-    .insert({ user1_id: user1, user2_id: user2 })
-    .then((rows) => {
-      console.log("Record added.");
-      knex('users')
-        .where('users.id', user2)
-        .then((userData) => {
-          res.send(JSON.stringify(userData));
-        });
-
-    });
+  knex 
+  .raw(
+    'INSERT INTO connections (user1_id, user2_id) VALUES (?, ?);', [user1, user2])
+  .then((rows) => {
+    console.log("Record added.");
+    knex('users')
+      .where('users.id', user2)
+      .then((userData) => {
+        res.send(JSON.stringify(userData));
+      });
+  });
 });
 
 app.post("/connections/delete", (req, res) => {
