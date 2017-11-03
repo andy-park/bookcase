@@ -38,12 +38,7 @@
                 <h6 class="lead">Search Results</h6>
                 <hr class="my-2">
                 <div class="row-lg">
-                    <ul class="list-group">
-                        <li class="list-group-item flex-column justify-content-between">
-                            <h6 class="search-name"></h6>
-                            <small class="search-email"></small>
-                            <span class="friend-add"></span>
-                        </li>
+                    <ul class="list-group search">
                     </ul>
                 </div>
             </div>
@@ -80,10 +75,11 @@
 
 <script>
     $(function () {
-        $('#TEST').remove();
+        
         $('.search-field').hide();
 
         $('.fire-button').on('click', function (event) {
+            $(".list-group.search").empty();
             $('.search-field').show();
             event.preventDefault();
             let input = $('.search-friend').val();
@@ -96,18 +92,19 @@
                 },
                 success: function (results) {
                     let newResults = JSON.parse(results);
-                    
-                    let name = $('.search-name').text(newResults.first_name + (' ') + (
-                        newResults.last_name));
-                    let email = $('.search-email').text(newResults.email);
-                    let addFriend = $('.friend-add').append(
-                        '<i class="fa fa-plus-square-o friend-add" id="TEST" data-my-id="<%= userId[0] %>" aria-hidden="true" p-2></i>'
+                    $(".list-group.search").append('<li class="list-group-item search flex-column justify-content-between"></li>');
+                    var item = $('.list-group-item.search');
+                    var name = $('<h6></h6>').text(newResults.first_name + (' ') + (newResults.last_name));
+                    var email = $('<small class="search-email"></small>').text(newResults.email);
+                    item.append(name);
+                    item.append(email);
+                    item.append('<i class="fa fa-plus-square-o friend-add" id="TEST" data-my-id="<%= userId[0] %>" aria-hidden="true" p-2></i>'
                     ).attr('data-friend-id', newResults.id);
-                    
+
                     $('#TEST').on('click', function (event) {
                         event.preventDefault();
                         var myId = 1;
-                        var friendId = newResults.id //Number($(this).data('friend-id'));
+                        var friendId = newResults.id 
                         
                         $.ajax({
                             type: 'post',
@@ -119,7 +116,6 @@
                             success: function (userData) {
                                 let friends = JSON.parse(userData);
                                 console.log(friends);
-                                
                                 $('#TEST').remove();
                                 $('.search-field').hide();
                                 $(".list-group").append(
@@ -143,9 +139,6 @@
                                 buttonDelete.on("click", function () {
                                     const user = Number($(this)
                                         .data('user-id'));
-
-                                    // const email = ($(this).data('email-id'));
-
                                     $.ajax({
                                         type: 'post',
                                         url: '/connections/delete',
@@ -163,7 +156,7 @@
                                 });
                             }
                         });
-                        //$('.search-row').remove();
+                        
                     });
                 }
             })
